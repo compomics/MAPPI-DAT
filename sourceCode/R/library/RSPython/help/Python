@@ -1,0 +1,74 @@
+.Python               package:RSPython               R Documentation
+
+_I_n_v_o_k_e _a _P_y_t_h_o_n _f_u_n_c_t_i_o_n _o_r _i_n_s_t_a_n_c_e _m_e_t_h_o_d
+
+_D_e_s_c_r_i_p_t_i_o_n:
+
+     These are the functions that invoke a Python function or a method
+     of a Python object. They transfer the S arguments to their
+     corresponding Python values and invoke the identified function
+     object. The resulting Python value is transferred back as an  S
+     object using the default converters.
+
+_U_s_a_g_e:
+
+     .Python(func, ..., .module=NULL, .convert=T, .sig=NULL)
+     .PythonMethod(ref, method, ..., .convert=T, .sig=NULL)
+
+_A_r_g_u_m_e_n_t_s:
+
+    func: usually, a string specifying the name of the Python function
+          to invoke. This can also be a `PythonReference' object which
+          refers to a previously ``computed'' function object.
+
+     ref: The Python object whose instance method is to be invoked.
+          This is the  `self' object in Python terms.
+
+  method: the name of the instance method to be invoked.
+
+     ...: the arguments to the Python function or method, given as S
+          objects and converted to Python using the default converters.
+
+ .module: the name of the module in which to find to find and resolve
+          the Python function
+
+.convert: a logical value indicating whether an attempt to convert  the
+          result from the Python function or method to a regular R
+          value should be made, or whether the object should be left on
+          the Python side of the interface and a reference to it
+          returned. Avoiding conversion can be useful when the value
+          will be used in subsequent calls Python functions or methods.
+
+    .sig: 
+
+_D_e_t_a_i_l_s:
+
+     These functions use the standard conversion mechanism for
+     translating R objects to Python values and vice versa. These can
+     be augmented by
+
+_V_a_l_u_e:
+
+     The return value resulting from calling the Python function or
+     method. This is converted to an R object or  returned as a
+     reference  to the Python object in the form of an object
+     `PythonReference'.
+
+_A_u_t_h_o_r(_s):
+
+     Duncan Temple Lang
+
+_R_e_f_e_r_e_n_c_e_s:
+
+     <URL: http://www.omegahat.org/RSPython>, <URL:
+     http://www.python.org>
+
+_S_e_e _A_l_s_o:
+
+     `.PythonEval' `.PythonEvalFile' `.Perl' `.Java' `.CORBA'
+
+_E_x_a_m_p_l_e_s:
+
+      .Python("version", .module="sys")
+      .Python("path", .module="sys")
+

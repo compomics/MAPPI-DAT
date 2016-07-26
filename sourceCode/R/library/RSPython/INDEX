@@ -1,0 +1,22 @@
+PythonReference Element Access
+                         Syntactic convenience for calling a Python
+                         references's method
+[[.PythonReference       ~~function to do ... ~~
+.Python                  Invoke a Python function or instance method
+.PythonEvalFile          Evaluate a Python script from a string or file.
+.PythonInit              Initialize the Python interpreter.
+.PythonNew               Create an instance of a Python class
+.PythonPath              Create Python Load Path
+Python Reflectance       Information about Python classes and methods
+foreignReference         Creates a reference for an S object
+getNumPythonConverters   Query the currently registered object converters
+                         between R and Python.
+getPythonReferenceIDs    Python Foreign Reference Information
+importPythonModule       Loads a Python Module
+isPythonInitialized      Is Python Interpreter Initialized
+pythonFunction           Python Method Information
+pythonModuleTypes        Python Module Elements and Types
+referenceManager         Create instance of the standard Reference
+                         Manager
+setPythonHandler         Get or set the R to Python foreign reference
+                         handler.

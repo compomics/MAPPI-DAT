@@ -1,0 +1,43 @@
+\Header{Python Reflectance}{Information about Python classes and methods}
+\alias{getSuperClasses}{Python Reflectance}
+\alias{pythonMethods}{Python Reflectance}
+\alias{pythonModuleNames}{Python Reflectance}
+\keyword{Inter-system Interface}{Python Reflectance}
+\keyword{Python}{Python Reflectance}
+\begin{Description}\relax
+These functions return information about a python class
+and its methods. From this we\end{Description}
+\begin{Usage}
+\begin{verbatim}
+pythonMethods(obj, all=F)
+getSuperClasses(obj, all=F)
+pythonModuleNames(obj, all=F)
+\end{verbatim}
+\end{Usage}
+\begin{Arguments}
+\begin{ldescription}
+\item[\code{obj}] a character vector giving the name of a Python class,
+given in the form \code{c("className", "moduleName")}
+\item[\code{all}] controls how inherited methods and attributes are
+processed. If \code{TRUE} is specified, the inherited methods are
+also reported. Otherwise, these are ignored and only those methods
+defined within the class are returned.
+\end{ldescription}
+\end{Arguments}
+\begin{Details}\relax
+This uses the code\end{Details}
+\begin{Value}
+\end{Value}
+\begin{Author}\relax
+Duncan Temple Lang\end{Author}
+\begin{References}\relax
+\url{http://www.omegahat.org/RSPython},
+\url{http://www.python.org}\end{References}
+\begin{SeeAlso}\relax
+\end{SeeAlso}
+\begin{Examples}
+\begin{ExampleCode}
+
+\end{ExampleCode}
+\end{Examples}
+

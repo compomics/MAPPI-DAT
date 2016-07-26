@@ -1,0 +1,15 @@
+ACGH	ACGH.RData
+DJIA	DJIA.RData
+e.agglo	e.agglo
+e.divisive	e.divisive
+e.split	e.split
+find.closest	find.closest
+getBetween	getBetween
+getWithin	getWithin
+gof.update	gof.update
+perm.cluster	perm.cluster
+process.data	process.data
+sig.test	sig.test
+splitPoint	splitPoint
+splitPointC	splitPointC
+updateDistance	updateDistance

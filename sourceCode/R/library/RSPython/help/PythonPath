@@ -1,0 +1,66 @@
+.PythonPath             package:RSPython             R Documentation
+
+_C_r_e_a_t_e _P_y_t_h_o_n _L_o_a_d _P_a_t_h
+
+_D_e_s_c_r_i_p_t_i_o_n:
+
+     This function handles creating a suitable value for the
+     `PYTHONPATH' environment variable which controls how the Python
+     interpreter finds its modules.
+
+_U_s_a_g_e:
+
+     .PythonPath(path=NULL, merge=T)
+
+_A_r_g_u_m_e_n_t_s:
+
+    path: if specified, this should be a string specifying the
+          directories in which to find Python modules. The directory
+          names should be separated by the appropriate directory
+          separator (":" on Unix). If this is missing, the current
+          value fo  the `PYTHONPATH' environment variable is used.
+
+   merge: a logical value indicating whether the basic elements needed
+          to locate the Python modules used to implement this package
+          should be appended to the value of the system variable
+          `PYTHONPATH'
+
+_D_e_t_a_i_l_s:
+
+     The following is the algorithm used to determine the path. If
+     there is no PYTHONPATH set, then we set our version so that one
+     can find the RS modules.
+
+     If there is a PYTHONPATH already set, then we take it and append
+     our value to it. This can be inhibited by specifying `merge = F'
+
+     Finally, if there is a non-null value for the path argument, then 
+     we use that as the value for PYTHONPATH. Again, if merge = T, we 
+     append the RS directories to it.
+
+     If merge is T, then we take whatever value for path is given and
+     append it to the current value of PYTHONPATH
+
+_V_a_l_u_e:
+
+     A string (i.e. character vector of length 1) giving the 
+     appropriate setting for the `PYTHONPATH' environment variable.
+
+_A_u_t_h_o_r(_s):
+
+     Duncan Temple Lang
+
+_R_e_f_e_r_e_n_c_e_s:
+
+     <URL: http://www.omegahat.org/RSPython>, <URL:
+     http://www.python.org>
+
+_E_x_a_m_p_l_e_s:
+
+      .PythonPath(system.file("tests", pkg="RSPython"))
+
+      .PythonPath(c(.PythonPath(), system.file("tests", pkg="RSPython")))
+
+
+      .PythonInit(system.file("tests", pkg="RSPython"))
+

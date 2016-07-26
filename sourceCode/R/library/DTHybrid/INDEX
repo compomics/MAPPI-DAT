@@ -1,0 +1,4 @@
+computeRecommendation   Runs the DT-Hybrid algorithm on a bipartite
+                        network
+enzyme                  An example Drug-Target interaction network
+                        dataset.

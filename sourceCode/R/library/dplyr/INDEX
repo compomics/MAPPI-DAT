@@ -1,0 +1,67 @@
+all.equal.tbl_df        Provide a useful implementation of all.equal
+                        for data.frames.
+as.tbl_cube             Coerce an existing data structure into a
+                        'tbl_cube'
+bench_compare           Evaluate, compare, benchmark operations of a
+                        set of srcs.
+build_sql               Build a SQL string.
+chain                   Chain together multiple operations.
+compute                 Compute a lazy tbl.
+copy_to                 Copy a local data frame to a remote src.
+copy_to.src_sql         Copy a local data fram to a sqlite src.
+cumall                  Cumulativate versions of any, all, and mean
+desc                    Descending order.
+do                      Do arbitrary operations on a tbl.
+dplyr                   The dplyr package.
+explain                 Explain details of an object
+explain_sql             Show sql and query plans.
+failwith                Fail with specified value.
+funs                    Create a list of functions calls.
+glimpse                 Get a glimpse of your data.
+group_by                Group a tbl by one or more variables.
+group_size              Calculate the size of each group
+grouped_dt              A grouped data table.
+groups                  Get/set the grouping variables for tbl.
+join                    Join two tbls together.
+join.tbl_df             Join data table tbls.
+join.tbl_dt             Join data table tbls.
+join.tbl_sql            Join sql tbls.
+lahman                  Cache and retrieve an 'src_sqlite' of the
+                        Lahman baseball database.
+lead-lag                Lead and lag.
+location                Print the location in memory of a data frame
+manip                   Data manipulation functions.
+manip_df                Data manipulation for data frames.
+manip_dt                Data manipulation for data tables.
+manip_grouped_dt        Data manipulation for grouped data tables.
+n                       The number of observations in the current
+                        group.
+n_distinct              Efficiently count the number of unique values
+                        in a vector.
+nasa                    NASA spatio-temporal data
+nth                     Extract the first, last or nth value from a
+                        vector.
+order_by                A helper function for ordering window function
+                        output.
+ranking                 Windowed rank functions.
+rbind_all               Efficiently rbind multiple data frames.
+rowwise                 Group input by rows
+sample                  Sample n rows from a table.
+setops                  Set operations.
+setops-data.frame       Set operations for data frames.
+src_bigquery            A bigquery data source.
+src_monetdb             Connect to MonetDB (http://www.monetdb.org), an
+                        Open Source analytics-focused database
+src_mysql               Connect to mysql/mariadb.
+src_postgres            Connect to postgresql.
+src_sqlite              Connect to a sqlite database.
+src_tbls                List all tbls provided by a source.
+summarise_each          Summarise and mutate multiple columns.
+tally                   Tally observations by group.
+tbl                     Create a table from a data source
+tbl_cube                A data cube tbl.
+tbl_df                  Create a data frame tble.
+tbl_dt                  Create a data table tbl.
+tbl_vars                List variables provided by a tbl.
+top_n                   Select top n rows (by value).
+translate_sql           Translate an expression to sql.

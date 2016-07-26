@@ -1,0 +1,18 @@
+note <- sprintf("R package version %s", meta$Version)
+
+bibentry(bibtype = "Article",
+         title = "Drug--target interaction prediction through domain-tuned network-based inference",
+         author = c(person("Salvatore", "Alaimo", email="alaimos@dmi.unict.it"),
+                    person("Alfredo", "Pulvirenti", email="apulvirenti@dmi.unict.it"),
+                    person("Rosalba", "Giugno", email="giugno@dmi.unict.it"),
+                    person("Alfredo", "Ferro", email="ferro@dmi.unict.it")),
+         journal="Bioinformatics",
+         volume="29",
+         number="16",
+         pages="2004--2008",
+         year="2013",
+         note=note,
+         publisher="Oxford Univ Press",
+         textVersion = paste0("Alaimo S, Pulvirenti A, Giugno R and Ferro A (2013). ",
+                              "Drug-target interaction prediction through domain-tuned network-based inference. ",
+                              "Bioinformatics, 29(16), pp. 2004-2008. ", note))

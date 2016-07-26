@@ -1,0 +1,79 @@
+<html><head><title>R: Python Foreign Reference Information</title>
+<link rel="stylesheet" type="text/css" href="../../R.css">
+</head><body>
+
+<table width="100%" summary="page for getPythonReferenceIDs {RSPython}"><tr><td>getPythonReferenceIDs {RSPython}</td><td align="right">R Documentation</td></tr></table>
+<h2>Python Foreign Reference Information</h2>
+
+
+<h3>Description</h3>
+
+<p>
+This returns the names of the currently active
+foreign Python reference objects being managed by 
+the Python reference manager.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+getPythonReferenceIDs()
+</pre>
+
+
+<h3>Details</h3>
+
+<p>
+This probes the reference manager in which the 
+exported Python objects are actually stored
+and gets information about each element.
+</p>
+
+
+<h3>Value</h3>
+
+<p>
+A character vector giving the identifiers (i.e. names) of
+the currently active foreign references exported from the Python
+session.</p>
+
+<h3>Author(s)</h3>
+
+<p>
+Duncan Temple Lang
+</p>
+
+
+<h3>References</h3>
+
+<p>
+<a href="http://www.omegahat.org/RSPython">http://www.omegahat.org/RSPython</a>,
+<a href="http://www.python.org">http://www.python.org</a>
+</p>
+
+
+<h3>See Also</h3>
+
+<p>
+<code><a href="../../RSPython/html/Python.html">.Python</a></code>,
+<code><a href="../../RSPython/html/PythonNew.html">.PythonNew</a></code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+
+  before &lt;- getPythonReferenceIDs()
+   # do something that creates Python reference objects
+  after &lt;-  getPythonReferenceIDs()
+   # Now cleanup the new ones.
+
+</pre>
+
+
+
+<hr><div align="center"><a href="00Index.html">[Package Contents]</a></div>
+
+</body></html>

@@ -1,0 +1,51 @@
+\Header{.PythonEvalFile}{Evaluate a Python script from a string or file.}
+\alias{.PythonEval}{.PythonEvalFile}
+\keyword{Inter-system Interface}{.PythonEvalFile}
+\keyword{Python}{.PythonEvalFile}
+\begin{Description}\relax
+These two functions allow one to evaluate Python scripts
+which are given in the Python syntax. These can be specified
+as a string or as a file containing the Python code.
+This approach to evaluating Python commands is less
+flexible than those offered by \code{\Link{.Python}}
+and related functions.\end{Description}
+\begin{Usage}
+\begin{verbatim}
+.PythonEvalFile(cmd, ..., .module=NULL, .convert=T)
+.PythonEval(cmd, ..., .module=NULL, .convert=T)
+\end{verbatim}
+\end{Usage}
+\begin{Arguments}
+\begin{ldescription}
+\item[\code{cmd}] the Python expression to parse and evaluate.
+\item[\code{...}] Any number of name-value pairs that are converted to a Python
+dictionary or context which will be used when evaluating the expression. 
+\item[\code{.module}] the name of the module whose dictionary is used to provide the name
+space for resolving symbols in the Python expressions.
+\item[\code{.convert}] a logical value indicating whether the result of evaluating the Python
+object should be converted to a regular R object, if possible, or explicitly left
+within Python and returned as a \code{PythonReference} object.
+\end{ldescription}
+\end{Arguments}
+\begin{Details}\relax
+\end{Details}
+\begin{Value}
+The value returned from evaluating the Python expression(s),
+converted to R using the standard conversion mechanism, including
+any user-level converters currently registered.\end{Value}
+\begin{Author}\relax
+Duncan Temple Lang\end{Author}
+\begin{References}\relax
+\url{http://www.omegahat.org/RSPython},
+\url{http://www.python.org}\end{References}
+\begin{SeeAlso}\relax
+\code{\Link{.Python}}
+\code{\Link{.PythonMethod}}
+\code{\Link{.PythonNew}}\end{SeeAlso}
+\begin{Examples}
+\begin{ExampleCode}
+ .PythonEval("from sys import *")
+ .PythonEval("argv")
+\end{ExampleCode}
+\end{Examples}
+

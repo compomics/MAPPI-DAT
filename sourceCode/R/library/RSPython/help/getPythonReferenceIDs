@@ -1,0 +1,45 @@
+getPythonReferenceIDs        package:RSPython        R Documentation
+
+_P_y_t_h_o_n _F_o_r_e_i_g_n _R_e_f_e_r_e_n_c_e _I_n_f_o_r_m_a_t_i_o_n
+
+_D_e_s_c_r_i_p_t_i_o_n:
+
+     This returns the names of the currently active foreign Python
+     reference objects being managed by  the Python reference manager.
+
+_U_s_a_g_e:
+
+     getPythonReferenceIDs()
+
+_D_e_t_a_i_l_s:
+
+     This probes the reference manager in which the  exported Python
+     objects are actually stored and gets information about each
+     element.
+
+_V_a_l_u_e:
+
+     A character vector giving the identifiers (i.e. names) of the
+     currently active foreign references exported from the Python
+     session.
+
+_A_u_t_h_o_r(_s):
+
+     Duncan Temple Lang
+
+_R_e_f_e_r_e_n_c_e_s:
+
+     <URL: http://www.omegahat.org/RSPython>, <URL:
+     http://www.python.org>
+
+_S_e_e _A_l_s_o:
+
+     `.Python', `.PythonNew'
+
+_E_x_a_m_p_l_e_s:
+
+       before <- getPythonReferenceIDs()
+        # do something that creates Python reference objects
+       after <-  getPythonReferenceIDs()
+        # Now cleanup the new ones.
+

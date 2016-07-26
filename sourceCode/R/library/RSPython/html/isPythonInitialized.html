@@ -1,0 +1,77 @@
+<html><head><title>R: Is Python Interpreter Initialized</title>
+<link rel="stylesheet" type="text/css" href="../../R.css">
+</head><body>
+
+<table width="100%" summary="page for isPythonInitialized {RSPython}"><tr><td>isPythonInitialized {RSPython}</td><td align="right">R Documentation</td></tr></table>
+<h2>Is Python Interpreter Initialized</h2>
+
+
+<h3>Description</h3>
+
+<p>
+This function tests whether the Python interpreter is in an initialized state
+and optionally initializes it if it is not (using default settings).
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+isPythonInitialized(init=F)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>init</code></td>
+<td>
+a logical value indicating whether to perform the default initialization
+if the Python interpreter is not already initialized.
+</td></tr>
+</table>
+
+<h3>Details</h3>
+
+<p>
+This checks the internal state of the Python library and queries if the
+interpreter is already initialized. If not and <code>init</code> is <code>TRUE</code>,
+the function <code><a href="../../RSPython/html/PythonInit.html">.PythonInit</a></code> is called with no arguments.
+</p>
+
+
+<h3>Value</h3>
+
+<p>
+A logical value indicating what the current status of the Python interpreter
+is. If <code>init</code> is <code>FALSE</code>, this is the state before the call.
+Otherwise, the interpreter should have been started, except if an error occurs.</p>
+
+<h3>Author(s)</h3>
+
+<p>
+Duncan Temple Lang
+</p>
+
+
+<h3>References</h3>
+
+<p>
+<a href="http://www.omegahat.org/RSPython">http://www.omegahat.org/RSPython</a>,
+<a href="http://www.python.org">http://www.python.org</a>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+ isPythonInitialized(init)
+
+ if(isPythonInitialized())
+</pre>
+
+
+
+<hr><div align="center"><a href="00Index.html">[Package Contents]</a></div>
+
+</body></html>

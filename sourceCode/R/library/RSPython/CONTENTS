@@ -1,0 +1,102 @@
+Entry: PythonReference Element Access
+Aliases: $.PythonReference
+Keywords: Inter-system Interface Python
+Description: Syntactic convenience for calling a Python references's method
+URL: ../../../library/RSPython/html/DollarPythonReference.html
+
+Entry: foreignReference
+Aliases: foreignReference
+Keywords: Inter-system Interface Python
+Description: Creates a reference for an S object
+URL: ../../../library/RSPython/html/foreignReference.html
+
+Entry: getNumPythonConverters
+Aliases: getNumPythonConverters getPythonConverterDescriptions
+Keywords: Inter-system Interface Python
+Description: Query the currently registered object converters between R and Python.
+URL: ../../../library/RSPython/html/getNumPythonConverters.html
+
+Entry: getPythonReferenceIDs
+Aliases: getPythonReferenceIDs
+Keywords: Inter-system Interface Python
+Description: Python Foreign Reference Information
+URL: ../../../library/RSPython/html/getPythonReferenceIDs.html
+
+Entry: importPythonModule
+Aliases: importPythonModule
+Keywords: Inter-system Interface Python
+Description: Loads a Python Module
+URL: ../../../library/RSPython/html/importPythonModule.html
+
+Entry: isPythonInitialized
+Aliases: isPythonInitialized
+Keywords: Inter-system Interface Python
+Description: Is Python Interpreter Initialized
+URL: ../../../library/RSPython/html/isPythonInitialized.html
+
+Entry: [[.PythonReference
+Aliases: [[.PythonReference
+Keywords: ~kwd1  ~kwd2 
+Description: ~~function to do ... ~~ 
+URL: ../../../library/RSPython/html/PyRefAttr.html
+
+Entry: .Python
+Aliases: .Python .PythonMethod
+Keywords: Inter-system Interface Python
+Description: Invoke a Python function or instance method
+URL: ../../../library/RSPython/html/Python.html
+
+Entry: .PythonEvalFile
+Aliases: .PythonEvalFile .PythonEval
+Keywords: Inter-system Interface Python
+Description: Evaluate a Python script from a string or file.
+URL: ../../../library/RSPython/html/PythonEval.html
+
+Entry: pythonFunction
+Aliases: pythonFunction
+Keywords: Inter-system Interface Python
+Description: Python Method Information
+URL: ../../../library/RSPython/html/pythonFunction.html
+
+Entry: .PythonInit
+Aliases: .PythonInit .PythonTerminate
+Keywords: Inter-system Interface Python
+Description: Initialize the Python interpreter.
+URL: ../../../library/RSPython/html/PythonInit.html
+
+Entry: pythonModuleTypes
+Aliases: pythonModuleTypes
+Keywords: Inter-system Interface Python
+Description: Python Module Elements and Types
+URL: ../../../library/RSPython/html/pythonModuleTypes.html
+
+Entry: .PythonNew
+Aliases: .PythonNew
+Keywords: Inter-system Interface Python
+Description: Create an instance of a Python class
+URL: ../../../library/RSPython/html/PythonNew.html
+
+Entry: .PythonPath
+Aliases: .PythonPath
+Keywords: Inter-system Interface Python
+Description: Create Python Load Path
+URL: ../../../library/RSPython/html/PythonPath.html
+
+Entry: Python Reflectance
+Aliases: pythonMethods getSuperClasses pythonModuleNames
+Keywords: Inter-system Interface Python
+Description: Information about Python classes and methods
+URL: ../../../library/RSPython/html/PythonReflect.html
+
+Entry: referenceManager
+Aliases: referenceManager
+Keywords: Inter-system Interface Python
+Description: Create instance of the standard Reference Manager
+URL: ../../../library/RSPython/html/referenceManager.html
+
+Entry: setPythonHandler
+Aliases: setPythonHandler getPythonHandler
+Keywords: Inter-system Interface Python
+Description: Get or set the R to Python foreign reference handler.
+URL: ../../../library/RSPython/html/setPythonHandler.html
+

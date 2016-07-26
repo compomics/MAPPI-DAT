@@ -1,0 +1,48 @@
+\Header{[[.PythonReference}{~~function to do ... ~~}
+\keyword{~kwd1}{[[.PythonReference}
+\keyword{~kwd2}{[[.PythonReference}
+\begin{Description}\relax
+~~ A concise (1-5 lines) description of what the function does. ~~\end{Description}
+\begin{Usage}
+\begin{verbatim}
+[[.PythonReference(x, i, ..., .convert=T)
+\end{verbatim}
+\end{Usage}
+\begin{Arguments}
+\begin{ldescription}
+\item[\code{x}] the \code{PythonReference} object in which to find the field
+named \code{name}.
+\item[\code{i}] a character vector specifiying the name of the field to retrieve.
+\item[\code{...}] ignored, but present for compatability with the generic.
+\item[\code{.convert}] a logical value indicating whether to attempt to
+convert the resulting Python object to R (TRUE) or leave as a reference (FALSE)
+\end{ldescription}
+\end{Arguments}
+\begin{Value}
+The value of the Python field
+named \code{name} in the specified object,
+converted to an R object or exported to
+R as a reference to the Python object.\end{Value}
+\begin{Note}\relax
+One can get the names of the different
+fields that are accessible in a Python reference
+\code{x} using the command
+\code{x[["\_\_dict\_\_", .convert=F]]\$keys()}\end{Note}
+\begin{Author}\relax
+Duncan Temple Lang\end{Author}
+\begin{References}\relax
+\url{http://www.omegahat.org/RSPython},
+\url{http://www.python.org}\end{References}
+\begin{SeeAlso}\relax
+\code{\Link{\$.PythonReference}}\end{SeeAlso}
+\begin{Examples}
+\begin{ExampleCode}
+
+  p <- .PythonNew("SDefsParser", "foo.defs", .module="Sgenerate")
+  p[["functions"]]
+
+  p[["__dict__", .convert=F]]$keys()
+
+\end{ExampleCode}
+\end{Examples}
+

@@ -1,0 +1,310 @@
+CHANGES IN iRefR VERSION 1.13:
+
+  SIGNIFICANT USER-VISIBLE CHANGES:
+
+    • None.
+
+  NEW FEATURES:
+
+    • Updated "get_irefindex" function, now able to download the most recent iRefIndex release (v.13.0).
+    • Improved "convert_MITAB_to_complexList" function, now allows the user to generate complex lists using the UIDs (besides the ROG IDs).
+
+  DEPRECATED & DEFUNCT:
+
+    • None.
+
+  INSTALLATION:
+
+    • None.
+
+  BUG FIXES:
+
+    • None.
+
+CHANGES IN iRefR VERSION 1.1:
+
+  SIGNIFICANT USER-VISIBLE CHANGES:
+
+    • None.
+
+  NEW FEATURES:
+
+    • Updated "get_irefindex" function, now able to download the most recent iRefIndex releases (v.10.0, 11.0 and 12.0) from the new iRefIndex website (http://irefindex.org).
+    • Improved "select_database" function, now makes a case-insensitive search.
+    • Modified "create_id_conversion_table" function, now is functional besides the changes introduced after iRefIndex 10.0 regarding identifiers removed from the altA and altB columns and located into the uidA and uidB columns.
+    • Improved "select_protein" function, now allows the user to select a protein using the UIDs (besides the ROG IDs).
+
+  DEPRECATED & DEFUNCT:
+
+    • None.
+
+  INSTALLATION:
+
+    • None.
+
+  BUG FIXES:
+
+    • Length of the lines of code in examples reduced to less than 90 characters in order the code to fit in the manual.
+
+CHANGES IN iRefR VERSION 1.00:
+
+  SIGNIFICANT USER-VISIBLE CHANGES:
+
+    • None.
+
+  NEW FEATURES:
+
+    • convert_MITAB_to_edgeList.R and convert_MITAB_to_edgeList.Rd: New optional parameter "node_names":
+Now there are two possible ways to name the nodes in a network. The first one is still the ROG IDs (either iROGs or icROGs), and the second one is the UIDs. The UIDs contain UniProt info when available; otherwise, RefSeq ID, and, in the last case, the ROG ID; this is, for E.coli, the first interactor column contains 58% UniProt, 1.9% RefSeq and still 30.3% ROG IDs (the remaining 9.8% being complex identifiers), while the second interactor is 66.6% UniProt, 3.8% RefSeq and 29.6% rogids.
+This change is useful because the user can now work with UniProt IDs from the beginning without doing translation. However, ROG IDs are still the default option. So, by default, all old code still works the same.
+
+    • convert_MITAB_to_edgeList.R and convert_MITAB_to_edgeList.Rd: New attributes for the edgeList format:
+Now, besides the node names and the edge weights, an edge in an edgeList will include two additional graph attributes: The first one is the RIG ID of the edge (either iRIG ID/icRIG ID) and the second one is the edgeType (complex, polymer or binary).
+This is convenient for two reasons: First, now it is possible to easily find info of edges such as in iRefScape: iRIG IDs allow the user to have a unique identifier for that edge and go back to the MITAB table and retrieve any info on that specific edge, while edgetypes can f.ex. allow to draw complexes and binaries with different colors, allowing an improved visualization, or to change the weight of all complexes (say, to 0.5, f.ex.), in a simple way.
+Second, and more important, iRefIndex contains pairs of nodes which are linked for more than one different interaction (RIG ID); for example, a binary and a complex interaction (C|X) or two different but overlapping complexes (C|C). So far, those multiple edges were fused into a single edge by default, besides being different interactions. From now on, iRefR allows the user to include multiple edges due to multiple iRIGs (C|X and C1|C2 cases).
+These attributes are only supported for the igraph package, not for graph.
+
+    • convert_MITAB_to_edgeList.R and convert_MITAB_to_edgeList.Rd: New optional parameter "multi_edge":
+As a consequence of the new attributes, now the edgeList is originally of a multigraph nature. Therefore, a new option allows the user to use the multigraph view or to combine the multiple edges in order to get the same graph than in previous iRefR versions. The default option is "no" (i.e., generate old single-edged type of graphs), therefore all code written under old iRefR versions will be compatible, with the difference that now those single edges will have the two additional attributes, however in a combined fashion (ex. "C|X" if the edge is the fusion of these two edge types). The option multi_edge="yes" will generate the new multigraph view.
+
+    • convert_edgeList_to_graph.R: Minor changes, so "igraph" graphs now include new attributes.
+
+  DEPRECATED & DEFUNCT:
+
+    • None.
+
+  INSTALLATION:
+
+    • None.
+
+  BUG FIXES:
+
+    • summary_protein.R was reporting irigid info with the icrog option (thanks to Daniel Carbajo Pedrosa for bug report).
+
+CHANGES IN iRefR VERSION 0.97:
+
+  SIGNIFICANT USER-VISIBLE CHANGES:
+
+    • None.
+
+  NEW FEATURES:
+
+    • None.
+
+  DEPRECATED & DEFUNCT:
+
+    • None.
+
+  INSTALLATION:
+
+    • None.
+
+  BUG FIXES:
+
+    • Minor changes to follow the size and execution time policies of CRAN.
+
+CHANGES IN iRefR VERSION 0.96:
+
+  SIGNIFICANT USER-VISIBLE CHANGES:
+
+    • iRefR depends again from "igraph", which has changed and now considers all vectors starting from position one and not from position zero. From now on, "iRefR" will depend on "igraph" 0.6 or higher. The "iRefR and igraph" tutorial was also changed accordingly (see: ftp://ftp.no.embnet.org/irefindex/iRefR/current/).
+
+  NEW FEATURES:
+
+    • None.
+
+  DEPRECATED & DEFUNCT:
+
+    • None.
+
+  INSTALLATION:
+
+    • None.
+
+  BUG FIXES:
+
+    • Minor change to create_id_conversion_table: Now the default option is getwd().
+
+CHANGES IN iRefR VERSION 0.95:
+
+  SIGNIFICANT USER-VISIBLE CHANGES:
+
+    • Temporarily, iRefR will not depend on "igraph" but on "igraph0" instead. This is due to the fact that the announced next version of "igraph" will be incompatible with the previous one, and the igraph maintainers have kept the old version as a package called "igraph0", i.e., "igraph0" is identical to "igraph" v.0.5.5. When the new igraph is released and tested, we may use "igraph" again.
+
+  NEW FEATURES:
+
+    • None.
+
+  DEPRECATED & DEFUNCT:
+
+    • None.
+
+  INSTALLATION:
+
+    • None.
+
+  BUG FIXES:
+
+    • None.
+
+CHANGES IN iRefR VERSION 0.94:
+
+  SIGNIFICANT USER-VISIBLE CHANGES:
+
+    • None.
+
+  NEW FEATURES:
+
+    • Minor change to select_database.Rd, specifying the four new databases (InnateDB, MatrixDB, mpilit, mpiimex) that can be now selected.
+
+  DEPRECATED & DEFUNCT:
+
+    • Test data-set file removed.
+
+  INSTALLATION:
+
+    • None.
+
+  BUG FIXES:
+
+    • Date of current version of iRefIndex has been updated.
+
+CHANGES IN iRefR VERSION 0.93:
+
+  SIGNIFICANT USER-VISIBLE CHANGES:
+
+    • Rnw files removed from distribution. Only pdf files included.
+    • Minor updates to iRefR_tutorial, get_irefindex.Rd and summary_table.Rd.
+
+  NEW FEATURES:
+
+    • None.
+
+  DEPRECATED & DEFUNCT:
+
+    • None
+
+  INSTALLATION:
+
+    • None.
+
+  BUG FIXES:
+
+    • None.
+
+CHANGES IN iRefR VERSION 0.92:
+
+  SIGNIFICANT USER-VISIBLE CHANGES:
+
+    • Directory tempdir() used to store iRefIndex files in examples (Rd documentation files).
+    • if(interactive()) {} condition used in "summary_graph.Rd" examples.
+
+  NEW FEATURES:
+
+    • None.
+
+  DEPRECATED & DEFUNCT:
+
+    • None
+
+  INSTALLATION:
+
+    • BuildVignettes set to FALSE at the DESCRIPTION file.
+
+  BUG FIXES:
+
+    • None.
+
+CHANGES IN iRefR VERSION 0.91:
+
+  SIGNIFICANT USER-VISIBLE CHANGES:
+
+    • Parameter "home" for the get_irefindex.R function used in documentation files.
+
+  NEW FEATURES:
+
+    • Optional parameter "home" added to get_irefindex.R to save files in the "R.home()" directory.
+
+  DEPRECATED & DEFUNCT:
+
+    • None
+
+  INSTALLATION:
+
+    • None
+
+  BUG FIXES:
+
+    • None.
+
+CHANGES IN iRefR VERSION 0.9:
+
+  SIGNIFICANT USER-VISIBLE CHANGES:
+
+    • Function "convert_MITAB_to_complexList" includes now an option to generate complexes from binaries having no bait-prey information.
+    • "iRefR and igraph" vignette created and released (as an additional file at the FTP site, not as a part of the package).
+
+  NEW FEATURES:
+
+    • None
+
+  DEPRECATED & DEFUNCT:
+
+    • None
+
+  INSTALLATION:
+
+    • None
+
+  BUG FIXES:
+
+    • Minor corrections to the text in the iRefR tutorial.
+    • Minor correction to function "summary_protein": Now column name tables contain the word "irigid" or "icrigid" depending on the case.
+
+CHANGES IN iRefR VERSION 0.8:
+
+  SIGNIFICANT USER-VISIBLE CHANGES:
+
+    • iRefR Tutorial improved and written using Sweave.
+    • NAMESPACE file added.
+    • Function "convert_complexList_to_MITAB" re-written; now more efficient.
+    • print statements replaced by cat statements
+
+  NEW FEATURES:
+
+    • None
+
+  DEPRECATED & DEFUNCT:
+
+    • None
+
+  INSTALLATION:
+
+    • None
+
+  BUG FIXES:
+
+    • iRefR tutorial now specifies how to select only human-human interactions before doing all analyses.
+
+CHANGES IN iRefR VERSION 0.7:
+
+  SIGNIFICANT USER-VISIBLE CHANGES:
+
+    • Most examples in Rd files were changed by faster ones.
+    • NEWS file added.
+
+  NEW FEATURES:
+
+    • None
+
+  DEPRECATED & DEFUNCT:
+
+    • None
+
+  INSTALLATION:
+
+    • None
+
+  BUG FIXES:
+
+    • Examples in Rd files and tutorial involving specific iROGs and icROGs, work now with iRefIndex v.8.0 instead of "current". This is because the iROGs are specific for each release and the examples wouldn't give the same results when working with a future release.

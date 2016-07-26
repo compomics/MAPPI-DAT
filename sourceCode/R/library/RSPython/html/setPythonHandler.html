@@ -1,0 +1,91 @@
+<html><head><title>R: Get or set the R to Python foreign reference handler.</title>
+<link rel="stylesheet" type="text/css" href="../../R.css">
+</head><body>
+
+<table width="100%" summary="page for setPythonHandler {RSPython}"><tr><td>setPythonHandler {RSPython}</td><td align="right">R Documentation</td></tr></table>
+<h2>Get or set the R to Python foreign reference handler.</h2>
+
+
+<h3>Description</h3>
+
+<p>
+The R-Python reference manager/handler is responsible for caching and
+resolving R objects that are exported to Python as references to R
+objects. The manager accepts these R objects and stores them with a
+given unique name, and returns an object that identifies it. When the
+object is used in Python, the reference is passed back to R and
+resolved by this handler.  This handler is implemented as a collection
+of basic R functions with different functions handling the storing and
+resolving of references, calling functions on that reference.  Usually
+this is a closure that shares access to the pool of objects being
+exported.  These two functions allow one to get the currently
+registered handler and also to set the handler.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+setPythonHandler(handler)
+getPythonHandler(handler)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>handler</code></td>
+<td>
+the handler to be registered as the active one.</td></tr>
+</table>
+
+<h3>Details</h3>
+
+<p>
+Currently, the form of the handler is quite restricted.
+It should be a list with the same length and functions 
+in the same order as those in the default handler
+returned by <code><a href="../../RSPython/html/referenceManager.html">referenceManager</a></code>
+</p>
+
+
+<h3>Value</h3>
+
+<p>
+Both functions return the reference handler that was registered
+before the function was called. In the case of the
+<code>setPythonHandler</code>, this is the value that is being replaced.</p>
+
+<h3>Author(s)</h3>
+
+<p>
+Duncan Temple Lang
+</p>
+
+
+<h3>References</h3>
+
+<p>
+<a href="http://www.omegahat.org/RSPython">http://www.omegahat.org/RSPython</a>,
+<a href="http://www.python.org">http://www.python.org</a>
+</p>
+
+
+<h3>See Also</h3>
+
+<p>
+<code><a href="../../RSPython/html/referenceManager.html">referenceManager</a></code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+
+</pre>
+
+
+
+<hr><div align="center"><a href="00Index.html">[Package Contents]</a></div>
+
+</body></html>

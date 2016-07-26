@@ -1,0 +1,61 @@
+\Header{pythonFunction}{Python Method Information}
+\keyword{Inter-system Interface}{pythonFunction}
+\keyword{Python}{pythonFunction}
+\begin{Description}\relax
+This returns information describing a Python
+method or function within a Python module.
+It gives reflectance information allowing one to determine
+the number and types of arguments, which are keywords, 
+and what the default values are, if any.
+Additionally, this returns the documentation string of the object.\end{Description}
+\begin{Usage}
+\begin{verbatim}
+pythonFunction(obj, module=NULL)
+\end{verbatim}
+\end{Usage}
+\begin{Arguments}
+\begin{ldescription}
+\item[\code{obj}] the name of the function or method being queried
+\item[\code{module}] the name of the module in which the function/method is to be found. This can be
+a character vector of one or more names identifying the module.
+\end{ldescription}
+\end{Arguments}
+\begin{Details}\relax
+\end{Details}
+\begin{Value}
+An object of classes
+\code{Function} and  \code{PythonReference}.
+It contains
+\begin{ldescription}
+\item[\code{name}] Description of `comp1'
+\item[\code{code}] a description of the function definition (i.e. ``signature'' and body)
+giving the names of the arguments and giving a count of how many local and external
+values 
+
+\item[\code{defaults}] a list of the default values of the different arguments. This is a named list
+whose names correspond to the argument names.
+\item[\code{doc}] the documentation string associated with the Python function/method
+\end{ldescription}
+\end{Value}
+\begin{Author}\relax
+Duncan Temple Lang\end{Author}
+\begin{References}\relax
+\url{http://www.omegahat.org/RSPython},
+\url{http://www.python.org}\end{References}
+\begin{SeeAlso}\relax
+\code{\Link{pythonModuleTypes}}\end{SeeAlso}
+\begin{Examples}
+\begin{ExampleCode}
+ pythonFunction("call", module="RS")
+
+ els <- pythonModuleTypes("RS")
+ RS.functionNames <- names(els[els == "function"])
+ RS.functionDescriptions <- lapply(RS.functionNames, function(x) pythonFunction(x, module="RS"))
+ names(RS.functionDescriptions) <- RS.functionNames
+
+ # Just get the documentation string.
+ RS.docs <- lapply(RS.functionNames, function(x) pythonFunction(x, module="RS")[["doc"]])
+ names(RS.docs) <- RS.functionNames
+\end{ExampleCode}
+\end{Examples}
+

@@ -1,0 +1,100 @@
+<html><head><title>R: Query the currently registered object converters between R and Python.</title>
+<link rel="stylesheet" type="text/css" href="../../R.css">
+</head><body>
+
+<table width="100%" summary="page for getNumPythonConverters {RSPython}"><tr><td>getNumPythonConverters {RSPython}</td><td align="right">R Documentation</td></tr></table>
+<h2>Query the currently registered object converters between R and Python.</h2>
+
+
+<h3>Description</h3>
+
+<p>
+These functions allow the user to examine what C routines
+and R and Python functions are currently registered
+to implement the conversion between R and Python objects.
+These control how values in one system are converted
+to objects in the other system as they are transferred
+as arguments to functions in the foreign system
+and returned as results to the calling system.
+These functions give both the number 
+and descriptions of each of the converters registered
+in either direction (i.e., from R to Python and vice-versa.)
+The descriptions are usually specified by the registrant when the converters are
+registered.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+getNumPythonConverters(which=c(fromPython = F, toPython = T))
+getPythonConverterDescriptions(which=c(fromPython = F, toPython = T))
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>which</code></td>
+<td>
+the direction(s) of the conversion of interest, i.e. 
+from Python to R and/or from R to Python</td></tr>
+</table>
+
+<h3>Details</h3>
+
+<p>
+Converters are registered at the C level as pairs
+of C routines given by a matching routine that determines
+whether the converter is appropriate for the object to be converted
+and the  converter routine itself which performs the translation from one
+system to the other. Additionally,
+</p>
+
+
+<h3>Value</h3>
+
+<p>
+<code>getNumPythonConverters</code> returns an integer vector
+giving the number of converters in the list for each of
+the specified directions.
+<code>getPythonConverterDescriptions</code> returns a list
+with an element for each of the directions specified.
+Each element in this list is a character vector 
+containing the description string for each of the 
+different (match, converter) pairs.</p>
+
+<h3>Author(s)</h3>
+
+<p>
+Duncan Temple Lang
+</p>
+
+
+<h3>References</h3>
+
+<p>
+<a href="http://www.omegahat.org/RSPython">http://www.omegahat.org/RSPython</a>,
+<a href="http://www.python.org">http://www.python.org</a>
+</p>
+
+
+<h3>See Also</h3>
+
+<p>
+<code><a href="../../RSPython/html/Python.html">.Python</a></code>
+<code><a href="../../RSPython/html/PythonNew.html">.PythonNew</a></code>
+<code><a href="../../RSPython/html/Python.html">.PythonMethod</a></code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+</pre>
+
+
+
+<hr><div align="center"><a href="00Index.html">[Package Contents]</a></div>
+
+</body></html>

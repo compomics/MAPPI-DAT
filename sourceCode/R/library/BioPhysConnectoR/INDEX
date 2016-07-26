@@ -1,0 +1,31 @@
+BioPhysConnectoR        BioPhysConnectoR
+aa2num                  Conversion of Amino Acids into Integer Values
+build.contacts          Determine the Contact Map and Distance Matrices
+build.hess              Construct the Hessian Matrix
+build.interact          Compute the Interaction Matrix
+build.invhess           Compute the Covariance Matrix / Inverse Hessian
+                        Matrix
+extractPDB              Extract Data from a PDB-File
+fnorm                   Frobenius Norm of Two Matrices
+freq2p                  Compute the Frequencies in an Alignment
+get.bfacs               Determine B factors
+get.contact.list        Returns a List of Contacts for a given Contact
+                        Map
+get.entropy             Compute the Sequence Entropy for an Alignment
+get.mie                 Mutual Information
+get.svd                 Singular Value Decomposition
+lbpc                    List the Functions of the BioPhysConnectoR
+                        Package
+mat.norm                Normalization of a Matrix
+mat.read                Read Matrix Data from a File
+mat.sort                Sort a Matrix According to a Specified Column
+mat.write               Writes Matrix Data to a File
+read.fasta              Read FASTA formated Sequences
+scpcp                   Self-Consistent Pair Contact Probability
+                        Approximation
+show.code               Output of the Amino Acid Coding Scheme
+sim                     Compute the Covariance Matrices and B Factors
+                        for a List of PDBs
+simc                    Computed Elastic Network Models for
+                        Switched-Off-List of Contacts
+sims                    Apply a List of Different Amino Acid Sequences

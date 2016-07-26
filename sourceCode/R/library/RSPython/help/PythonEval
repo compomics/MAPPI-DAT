@@ -1,0 +1,60 @@
+.PythonEvalFile           package:RSPython           R Documentation
+
+_E_v_a_l_u_a_t_e _a _P_y_t_h_o_n _s_c_r_i_p_t _f_r_o_m _a _s_t_r_i_n_g _o_r _f_i_l_e.
+
+_D_e_s_c_r_i_p_t_i_o_n:
+
+     These two functions allow one to evaluate Python scripts which are
+     given in the Python syntax. These can be specified as a string or
+     as a file containing the Python code. This approach to evaluating
+     Python commands is less flexible than those offered by `.Python'
+     and related functions.
+
+_U_s_a_g_e:
+
+     .PythonEvalFile(cmd, ..., .module=NULL, .convert=T)
+     .PythonEval(cmd, ..., .module=NULL, .convert=T)
+
+_A_r_g_u_m_e_n_t_s:
+
+     cmd: the Python expression to parse and evaluate.
+
+     ...: Any number of name-value pairs that are converted to a Python
+          dictionary or context which will be used when evaluating the
+          expression. 
+
+ .module: the name of the module whose dictionary is used to provide
+          the name space for resolving symbols in the Python
+          expressions.
+
+.convert: a logical value indicating whether the result of evaluating
+          the Python object should be converted to a regular R object,
+          if possible, or explicitly left within Python and returned as
+          a `PythonReference' object.
+
+_D_e_t_a_i_l_s:
+
+_V_a_l_u_e:
+
+     The value returned from evaluating the Python expression(s),
+     converted to R using the standard conversion mechanism, including
+     any user-level converters currently registered.
+
+_A_u_t_h_o_r(_s):
+
+     Duncan Temple Lang
+
+_R_e_f_e_r_e_n_c_e_s:
+
+     <URL: http://www.omegahat.org/RSPython>, <URL:
+     http://www.python.org>
+
+_S_e_e _A_l_s_o:
+
+     `.Python' `.PythonMethod' `.PythonNew'
+
+_E_x_a_m_p_l_e_s:
+
+      .PythonEval("from sys import *")
+      .PythonEval("argv")
+

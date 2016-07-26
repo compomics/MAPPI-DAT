@@ -1,0 +1,58 @@
+\Header{getNumPythonConverters}{Query the currently registered object converters between R and Python.}
+\alias{getPythonConverterDescriptions}{getNumPythonConverters}
+\keyword{Inter-system Interface}{getNumPythonConverters}
+\keyword{Python}{getNumPythonConverters}
+\begin{Description}\relax
+These functions allow the user to examine what C routines
+and R and Python functions are currently registered
+to implement the conversion between R and Python objects.
+These control how values in one system are converted
+to objects in the other system as they are transferred
+as arguments to functions in the foreign system
+and returned as results to the calling system.
+These functions give both the number 
+and descriptions of each of the converters registered
+in either direction (i.e., from R to Python and vice-versa.)
+The descriptions are usually specified by the registrant when the converters are
+registered.\end{Description}
+\begin{Usage}
+\begin{verbatim}
+getNumPythonConverters(which=c(fromPython = F, toPython = T))
+getPythonConverterDescriptions(which=c(fromPython = F, toPython = T))
+\end{verbatim}
+\end{Usage}
+\begin{Arguments}
+\begin{ldescription}
+\item[\code{which}] the direction(s) of the conversion of interest, i.e. 
+from Python to R and/or from R to Python
+\end{ldescription}
+\end{Arguments}
+\begin{Details}\relax
+Converters are registered at the C level as pairs
+of C routines given by a matching routine that determines
+whether the converter is appropriate for the object to be converted
+and the  converter routine itself which performs the translation from one
+system to the other. Additionally,\end{Details}
+\begin{Value}
+\code{getNumPythonConverters} returns an integer vector
+giving the number of converters in the list for each of
+the specified directions.
+\code{getPythonConverterDescriptions} returns a list
+with an element for each of the directions specified.
+Each element in this list is a character vector 
+containing the description string for each of the 
+different (match, converter) pairs.\end{Value}
+\begin{Author}\relax
+Duncan Temple Lang\end{Author}
+\begin{References}\relax
+\url{http://www.omegahat.org/RSPython},
+\url{http://www.python.org}\end{References}
+\begin{SeeAlso}\relax
+\code{\Link{.Python}}
+\code{\Link{.PythonNew}}
+\code{\Link{.PythonMethod}}\end{SeeAlso}
+\begin{Examples}
+\begin{ExampleCode}
+\end{ExampleCode}
+\end{Examples}
+

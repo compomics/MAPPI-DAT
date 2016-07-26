@@ -1,0 +1,57 @@
+\Header{PythonReference Element Access}{Syntactic convenience for calling a Python references's method}
+\alias{\$.PythonReference}{PythonReference Element Access}
+\keyword{Inter-system Interface}{PythonReference Element Access}
+\keyword{Python}{PythonReference Element Access}
+\begin{Description}\relax
+This allows one to call a method of a Python object
+from R in a simple form such as \code{pyObj\$method(arg1, arg2, ...)}.
+This provides an overloading of the \code{\$} operator
+for R objects of class \code{PythonReference} to return
+a simplified call to \code{.PythonMethod}\end{Description}
+\begin{Usage}
+\begin{verbatim}
+$.PythonReference(obj, name)
+\end{verbatim}
+\end{Usage}
+\begin{Arguments}
+\begin{ldescription}
+\item[\code{obj}] the \code{PythonReference} object whose method is to be called.
+\item[\code{name}] the name of the method in the Python object which is to be called.
+\end{ldescription}
+\end{Arguments}
+\begin{Details}\relax
+When calling a Python object's method from R, one specifies the
+reference to the Python object and the name of the method along with
+the arguments to that method in a call to \code{\Link{.PythonMethod}}. 
+This function/method returns  function object containing sufficient
+information to call the specified method on the given reference.
+These two pieces of information are stored in an R closure instance
+and this can then be called as a regular function whose
+body calls \code{\Link{.PythonMethod}}.\end{Details}
+\begin{Value}
+A function closure instance whose body consists
+of a call to \code{.PythonMethod} for the 
+specified \code{PythonReference} object
+and method name.\end{Value}
+\begin{Author}\relax
+Duncan Temple Lang\end{Author}
+\begin{References}\relax
+\url{http://www.omegahat.org/RSPython},
+\url{http://www.python.org}\end{References}
+\begin{SeeAlso}\relax
+\code{\Link{.PythonMethod}}
+\code{\Link{.Python}}
+\code{\Link{.PythonNew}}
+\code{\Link{.PythonEval}}
+\code{\Link{.PythonEvalFile}}\end{SeeAlso}
+\begin{Examples}
+\begin{ExampleCode}
+ x <- .PythonNew("") 
+ x$foo()
+
+
+
+
+\end{ExampleCode}
+\end{Examples}
+

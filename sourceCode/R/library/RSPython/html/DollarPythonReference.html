@@ -1,0 +1,101 @@
+<html><head><title>R: Syntactic convenience for calling a Python references's method</title>
+<link rel="stylesheet" type="text/css" href="../../R.css">
+</head><body>
+
+<table width="100%" summary="page for PythonReference Element Access {RSPython}"><tr><td>PythonReference Element Access {RSPython}</td><td align="right">R Documentation</td></tr></table>
+<h2>Syntactic convenience for calling a Python references's method</h2>
+
+
+<h3>Description</h3>
+
+<p>
+This allows one to call a method of a Python object
+from R in a simple form such as <code>pyObj$method(arg1, arg2, ...)</code>.
+This provides an overloading of the <code>$</code> operator
+for R objects of class <code>PythonReference</code> to return
+a simplified call to <code>.PythonMethod</code>
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+$.PythonReference(obj, name)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>obj</code></td>
+<td>
+the <code>PythonReference</code> object whose method is to be called.</td></tr>
+<tr valign="top"><td><code>name</code></td>
+<td>
+the name of the method in the Python object which is to be called.</td></tr>
+</table>
+
+<h3>Details</h3>
+
+<p>
+When calling a Python object's method from R, one specifies the
+reference to the Python object and the name of the method along with
+the arguments to that method in a call to <code><a href="../../RSPython/html/Python.html">.PythonMethod</a></code>. 
+This function/method returns  function object containing sufficient
+information to call the specified method on the given reference.
+These two pieces of information are stored in an R closure instance
+and this can then be called as a regular function whose
+body calls <code><a href="../../RSPython/html/Python.html">.PythonMethod</a></code>.
+</p>
+
+
+<h3>Value</h3>
+
+<p>
+A function closure instance whose body consists
+of a call to <code>.PythonMethod</code> for the 
+specified <code>PythonReference</code> object
+and method name.</p>
+
+<h3>Author(s)</h3>
+
+<p>
+Duncan Temple Lang
+</p>
+
+
+<h3>References</h3>
+
+<p>
+<a href="http://www.omegahat.org/RSPython">http://www.omegahat.org/RSPython</a>,
+<a href="http://www.python.org">http://www.python.org</a>
+</p>
+
+
+<h3>See Also</h3>
+
+<p>
+<code><a href="../../RSPython/html/Python.html">.PythonMethod</a></code>
+<code><a href="../../RSPython/html/Python.html">.Python</a></code>
+<code><a href="../../RSPython/html/PythonNew.html">.PythonNew</a></code>
+<code><a href="../../RSPython/html/PythonEval.html">.PythonEval</a></code>
+<code><a href="../../RSPython/html/PythonEval.html">.PythonEvalFile</a></code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+ x &lt;- .PythonNew("") 
+ x$foo()
+
+
+
+
+</pre>
+
+
+
+<hr><div align="center"><a href="00Index.html">[Package Contents]</a></div>
+
+</body></html>

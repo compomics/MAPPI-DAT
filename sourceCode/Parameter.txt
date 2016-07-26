@@ -1,0 +1,7 @@
+## enter all the parameter for my sql connection
+user= root
+database=mappi_dat_ver4
+password= password
+host= localhost
+
+## if database installed locally than host name  will be same

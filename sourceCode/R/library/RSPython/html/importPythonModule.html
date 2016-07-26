@@ -1,0 +1,81 @@
+<html><head><title>R: Loads a Python Module</title>
+<link rel="stylesheet" type="text/css" href="../../R.css">
+</head><body>
+
+<table width="100%" summary="page for importPythonModule {RSPython}"><tr><td>importPythonModule {RSPython}</td><td align="right">R Documentation</td></tr></table>
+<h2>Loads a Python Module</h2>
+
+
+<h3>Description</h3>
+
+<p>
+This loads the Python module into the Python interpreter,
+making its functions and classes available to the Python, and hence R,
+session. This is equivalent to the Python command
+<code>from &lt;name&gt; import *</code>.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+importPythonModule(name, all=T)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>name</code></td>
+<td>
+</td></tr>
+<tr valign="top"><td><code>all</code></td>
+<td>
+</td></tr>
+</table>
+
+<h3>Value</h3>
+
+
+<h3>Author(s)</h3>
+
+<p>
+Duncan Temple Lang
+</p>
+
+
+<h3>References</h3>
+
+<p>
+<a href="http://www.omegahat.org/RSPython">http://www.omegahat.org/RSPython</a>,
+<a href="http://www.python.org">http://www.python.org</a>
+</p>
+
+
+<h3>See Also</h3>
+
+<p>
+<code><a href="../../RSPython/html/pythonModuleTypes.html">pythonModuleTypes</a></code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+  importPythonModule("sys")
+  .PythonEval("version")
+
+  importPythonModule("sys", all=F)
+  .PythonEval("sys.version")
+
+
+  importPythonModule("urllib", all=F)
+  pythonModuleTypes("urllib")
+
+</pre>
+
+
+
+<hr><div align="center"><a href="00Index.html">[Package Contents]</a></div>
+
+</body></html>
