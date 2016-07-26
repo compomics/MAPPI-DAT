@@ -1,5 +1,5 @@
 # MAPPI-DAT
-![MAPPI-DAT workflow](http://genesis.ugent.be/uvpublicdata/MAPPI-DAT/mappi-dat_schem)
+![MAPPI-DAT workflow] (http://genesis.ugent.be/uvpublicdata/MAPPI-DAT/mappi-dat_schem.png)
  * [Project Description](#project-description)
  * [Downloads](#downloads)
  * [Usage] (#usage)
