@@ -10,6 +10,7 @@
 ## Project Description
 
 *MAPPI-DAT* (Mappit microArray Protein Protein Interaction- Data management & Analysis Tool) is an automated high-throughput data management and analysis system for microarray-MAPPIT system. MAPPI-DAT is capable of processing many thousand data points for each experiment, and comprising a data storage system that stores the experimental data in a structured way. 
+
 *MAPPI-DAT* application include graphical user interface. The analysis system is comprising of three steps: normalization, analysis and post filtration. The management system contains a back-end relational database and retrieval system, allowing user to store and download different projects using MAPPI-DAT interface with three main divisions for analysis, database submission and retrieval.
 
 [Go to top of the page] (#MAPPI-DAT)
