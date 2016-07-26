@@ -29,14 +29,14 @@ window compatible .exe files can be downloaded from:
 MySQL schema for the MAPPI-DAT can be downloaded from [here] (http://genesis.ugent.be/uvpublicdata/MAPPI-DAT/Mappi_datScript.sql)
 
 [Go to top of the page] (#mappi-dat)
-
+----
 ## Usage
 See the [manual] (http://genesis.ugent.be/uvpublicdata/MAPPI-DAT/UserManual.pdf) for further information about how to use the tool.
 
 Sample data can be downloaded from [here] (http://genesis.ugent.be/uvpublicdata/MAPPI-DAT/SampleFolder)
 
 [Go to top of the page] (#mappi-dat)
-
+----
 ## Project Support
 
 MAPPI-DAT project is supported by:
