@@ -19,8 +19,8 @@
 ## Downloads
 **executable files:**
 window compatible .exe files can be downloaded from:
-[MAPPI-DAT-MainGui]  (http://genesis.ugent.be/uvpublicdata/MAPPI-DAT/MAPPI-DAT-MainGui.zip)
-[MAPPI-DAT-SmallGui] (http://genesis.ugent.be/uvpublicdata/MAPPI-DAT/MAPPI-DAT-SmallGui.zip)
+ *[MAPPI-DAT-MainGui]  (http://genesis.ugent.be/uvpublicdata/MAPPI-DAT/MAPPI-DAT-MainGui.zip)
+ *[MAPPI-DAT-SmallGui] (http://genesis.ugent.be/uvpublicdata/MAPPI-DAT/MAPPI-DAT-SmallGui.zip)
 
 **database schema**
 database schema for the MAPPI-DAT can be downloaded from [here] (http://genesis.ugent.be/uvpublicdata/MAPPI-DAT/Mappi_datVer4_Script.sql)
@@ -28,7 +28,7 @@ database schema for the MAPPI-DAT can be downloaded from [here] (http://genesis.
 [Go to top of the page] (#MAPPI-DAT)
 
 ## Usage
-See the [manual] (http://genesis.ugent.be/uvpublicdata/MAPPI-DAT/UserManual)
+See the [manual] (http://genesis.ugent.be/uvpublicdata/MAPPI-DAT/UserManual.pdf)
 Sample data can be downloaded from [here] (http://genesis.ugent.be/uvpublicdata/MAPPI-DAT/SampleFolder)
 
 [Go to top of the page] (#MAPPI-DAT)
