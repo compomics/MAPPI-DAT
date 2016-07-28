@@ -15,10 +15,8 @@ So the input should be a folder containing:
 3. one text file explaning which subfile corresponds to which protein annotation file
 and if multiple baits are present than it should also refer bait in first column
 and the name of the file should be
-
         filelinkage.txt                 """
 
-""" Bait    file    proteinAnnotationfile"""
 
 
 ###################################################################################################################################################

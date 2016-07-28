@@ -171,14 +171,9 @@ def Select_all(Query,cnx,argument="Null",arg=False,int=False):
     if not cnx.is_connected():
         cnx=MySqlConnection.connectSql()
 
-#    import mysql.connector
     count=0
     small=""
     rep_list=[]
-    ## loggin in into the mymysql sever
-    # try:
-#        cnx = mysql.connector.connect(user='mappit', database='mappit', password='allowme',host='sqlnode.ugent.be')
-#        cnx = mysql.connector.connect(user='root', database='mydb', password='password')
     cursor1 = cnx.cursor()
     if arg:
         cursor1.execute(Query,argument)
@@ -193,10 +188,6 @@ def Select_all(Query,cnx,argument="Null",arg=False,int=False):
     cnx.commit()
     cursor1.close()
     return rep_list
-#    except mysql.connector.Error as err:
-#     except Exception as err:
-#         print("Something went wrong: {}".format(err))
-#         print "Server is Closed ....."
 
 
 def Select_values(Query,cnx,argument="Null",arg=False):
@@ -206,9 +197,6 @@ def Select_values(Query,cnx,argument="Null",arg=False):
     count=0
     small=[]
     rep_list=[]
-    ## loggin in into the mymysql sever
-#    cnx = mysql.connector.connect(user='mappit', database='mappit', password='allowme',host='sqlnode.ugent.be')
-    #cnx = mysql.connector.connect(user='root', database='mydb', password='password')
     cursor1 = cnx.cursor()
     if arg:
         cursor1.execute(Query,argument)

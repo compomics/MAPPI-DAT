@@ -6,10 +6,6 @@ def replicateNumber(exp,epgrp,project,cnx):
     import mysql.connector
     count=0
     rep_list=[]
-#    rep_list=["experiment\tNS\tS"]
-    ## loggin in into the mymysql sever
-#    cnx = mysql.connector.connect(user='mappit', database='mappit', password='allowme',host='sqlnode.ugent.be')
-    #cnx = mysql.connector.connect(user='root', database='mydb', password='password')
     cursor1 = cnx.cursor()
     cursor1.execute("""select c.NSreplicate+c.Sreplicate,c.NSreplicate, c.Sreplicate from exp_condition c
                        inner join experiments e on e.ref_conditionid=c.condition_id
@@ -28,10 +24,6 @@ def HowManyPositivesIncluding(exp,epgrp,project,cnx):
     import mysql.connector
     count=0
     rep_list=[]
-#    rep_list=["Total\tControls\tSDPositives\tNA"]
-    ## loggin in into the mymysql sever
-#    cnx = mysql.connector.connect(user='mappit', database='mappit', password='allowme',host='sqlnode.ugent.be')
-    #cnx = mysql.connector.connect(user='root', database='mydb', password='password')
     cursor1 = cnx.cursor()
     cursor1.execute("""select (select count(*) from possiblehit h
                         inner join interactors i on i.idInteractors=h.ref_interactorid

@@ -39,10 +39,8 @@ mainframe.rowconfigure(4, weight=3)
 cnx=""
 try:
     cnx= MySqlConnection.connectSql()
-    # import mysql.connector
-    # cnx = mysql.connector.connect(user='mappit', database='testmappit', password='allowme',host='sqlnode.ugent.be')
-#    cnx = mysql.connector.connect(user='root', database='mydb', password='password')
-except Exception:
+
+	except Exception:
     print("Database is not connected")
     pass
 
