@@ -20,6 +20,10 @@
 ----
 
 ## Downloads
+
+**Python project:**
+MAPPI-DAT project can be downloaded from [MAPPI-DAT] (http://genesis.ugent.be/uvpublicdata/MAPPI-DAT/MAPPI-DAT.zip)
+
 **executable files:**
 window compatible .exe files can be downloaded from:
   * [MAPPI-DAT-MainGui]  (http://genesis.ugent.be/uvpublicdata/MAPPI-DAT/MAPPI-DAT-MainGui.zip)
