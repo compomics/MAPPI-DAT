@@ -5,8 +5,8 @@ from Tkinter import *
 from tkFileDialog import askdirectory
 from Mysql_queries import questions_query, Project_Query
 from Gui_support import Gui_looks
-from Plotting_graph import PlottingDist
-from Mysql_queries import MySqlConnection
+# from Plotting_graph import PlottingDist
+# from Mysql_queries import MySqlConnection
 
 def MergeRowsTogether(retest_data_list):
 

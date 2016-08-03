@@ -1,11 +1,11 @@
 __author__ = 'surya'
 
-from Filter_Analysis import Processing, CalculatingPositives, PostAnalysis, MergingAndFinalFiltration
-from Plotting_graph import PlottingDist
-from GeneralMethods import writeFile
 import os
 from datetime import datetime
 
+from Filter_Analysis import Processing, CalculatingPositives, MergingAndFinalFiltration
+from GeneralMethods import GetRPath
+from Plotting_graph import PlottingDist
 
 """ the input of the data will be 1 xml file
 containing the number of files, each corresponds to different prey set but all together will be for one bait
@@ -15,8 +15,10 @@ So the input should be a folder containing:
 3. one text file explaning which subfile corresponds to which protein annotation file
 and if multiple baits are present than it should also refer bait in first column
 and the name of the file should be
+
         filelinkage.txt                 """
 
+""" Bait    file    proteinAnnotationfile"""
 
 
 ###################################################################################################################################################
@@ -31,6 +33,12 @@ def processAnalysisNormalization(LinkageFile,FolderPath,xmlfile,analy,cut,gen,ns
     ## handling with the list provided by the ns_list and s_list through gui
     nslist=ns_list.split(",")
     slist=s_list.split(",")
+
+    ######################################
+    ## get R path
+    Rpath= GetRPath.RPathname()
+    print Rpath
+    # print Rpath
 
 ###################################################################################
 ## parsing the linkageFile and creating folders for each of the bait and the subfolders.
@@ -47,7 +55,8 @@ def processAnalysisNormalization(LinkageFile,FolderPath,xmlfile,analy,cut,gen,ns
     else:
         AspecificDic={}
 
-###################################################################################################
+
+    ###################################################################################################
 ###########define columns for each Quantification parameter#########################################
 
     if allprocessedFile: ## this is the option if says yes that means process all the files else just process the integral intensity file
@@ -108,6 +117,8 @@ def processAnalysisNormalization(LinkageFile,FolderPath,xmlfile,analy,cut,gen,ns
 ##################################### Normalization ##################################################################################
 #####################################################################################################################################################
 
+
+
     for eachBait in bait2PlateList:
         print " Started with bait ",eachBait
         # merge the control File
@@ -118,9 +129,10 @@ def processAnalysisNormalization(LinkageFile,FolderPath,xmlfile,analy,cut,gen,ns
 
         InputFileName="\'"+mainPath+"/Processing/"+"\'"
         Outputfilename="\'"+mainPath+"/Analysis/AllPlatesWithoutControlNormalized.txt"+"\'"
-        fileRP= "R\\bin\\i386\\R.exe --vanilla --no-save < NormalizationWithaov.R --args Inputfile="+ InputFileName\
+        fileRP= Rpath+" --vanilla --no-save < NormalizationWithaov.R --args Inputfile="+ InputFileName\
                 +" OutputFile="+Outputfilename+" nsrep="+str(nsrep)+" srep="+str(srep)+" > OutputRP1 2> ErrorRp1" #+" cutoff="+str(cut)+" gene="+str(gen)+\
         fileRP= '\"'+ fileRP +'\"'
+        print fileRP
         os.system(fileRP)
         print "Finished Normalization.."
         ##################################################################################################
@@ -133,10 +145,11 @@ def processAnalysisNormalization(LinkageFile,FolderPath,xmlfile,analy,cut,gen,ns
         ###################################################################################################
         if analy:
             namer="\'"+File2BMerge+"\'"
-            fileRP= "R\\bin\\x64\\R.exe --vanilla --no-save < NewAnalysisMappiDat.R --args file="+namer \
+            fileRP= Rpath+" --vanilla --no-save < NewAnalysisMappiDat.R --args file="+namer \
                     +" nsrep="+str(nsrep)+" srep="+str(srep)+" > OutputRP2 2> ErrorRp2" #+" cutoff="+str(cut)+" gene="+str(gen)+\
 
             fileRP= '\"'+ fileRP +'\"'
+            print fileRP
             os.system(fileRP)
             ## apply particle count filtration
             if not PCpresent:

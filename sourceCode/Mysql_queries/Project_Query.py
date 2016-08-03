@@ -171,6 +171,7 @@ def Select_all(Query,cnx,argument="Null",arg=False,int=False):
     if not cnx.is_connected():
         cnx=MySqlConnection.connectSql()
 
+#    import mysql.connector
     count=0
     small=""
     rep_list=[]

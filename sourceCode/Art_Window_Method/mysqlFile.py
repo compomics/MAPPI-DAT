@@ -10,9 +10,6 @@ import ttk
 cnx=""
 try:
     cnx= MySqlConnection.connectSql()
-    # import mysql.connector
-    # cnx = mysql.connector.connect(user='mappit', database='testmappit', password='allowme',host='sqlnode.ugent.be')
-#    cnx = mysql.connector.connect(user='root', database='mydb', password='password')
 except Exception:
     print("Database is not connected")
     pass
@@ -30,7 +27,6 @@ art_aliqot_query=("""insert into art_info (ali_name,ali_date,prepared_by,extra_i
 aliqot2mix_query=("""insert into aliqot2mix (ref_aliqotid,ref_mixid) values (%s,%s)""")
 mixture_query=("""insert into mixtureinfo (mix_date,Madeby,m_type,extra_info,mixplate_name,No_art_Info) values (%s,%s,%s,%s,%s,%s)""")
 tplate_query=("""insert into plates (p_name,printingDate,prepared_by,ref_mixinfoid,extra_info) values (%s,%s,%s,%s,%s) """)
-# tplateSmall_query=("""insert into tplate (tplate_name,ref_mixid) values (%s,%s) """)
 
 ## checking entries
 
@@ -102,16 +98,6 @@ def addArtaliqot(aName,aDate,aPrep,artName,artDate,extra_info,root):
 
 
 def addMixture(listbox,tplate,mix_date,prep_by,m_type,extra_info,date2Aliqot,root,NoArtInfo):
-    # try:
-    #     cnx = MySqlConnection.connectSql()
-    #     # import mysql.connector
-    #     # cnx = mysql.connector.connect(user='mappit', database='testmappit', password='allowme',host='sqlnode.ugent.be')
-    # #    cnx = mysql.connector.connect(user='root', database='mydb', password='password')
-    # except Exception:
-    #     print("Database is not connected")
-    #     pass
-    #
-    # print listbox.get(0, END)
     if NoArtInfo:
         noArt="True"
     else:
