@@ -5,7 +5,9 @@ password= allowme
 host= localhost
 ## if database installed locally than host name  will be same
 
-## enter all parameter for R connections
-Rpath= "C:\\Program Files\\R\\R-3.3.1\\bin\\x64\\R.exe"
+## enter all parameter for R connections (example for windows)
+Rpath= "C:\\Program Files\\R\\R-3.3.1\\bin\\x64\\Rscript.exe"
+
+# for linux the path is generally "/usr/bin/Rscript" 
 
 

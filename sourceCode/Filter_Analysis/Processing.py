@@ -47,10 +47,13 @@ def FolderCreationOnlyBait(link,pathList):
     if not os.path.isdir(path):
         os.makedirs(path)
     for bait in pathList:
-        dirList=[path+"\\"+bait+"\\Processing",path+"\\"+bait+"\\"+"Analysis"]
-        for each in dirList:
-            if not os.path.isdir(each):
-                    os.makedirs(each)
+        baitpath=path+"/"+bait
+        if not os.path.isdir(baitpath):
+            os.makedirs(baitpath)
+            dirList=[baitpath+"/Processing",baitpath+"/Analysis"]
+            for each in dirList:
+                if not os.path.isdir(each):
+                        os.makedirs(each)
         OnlyControl=open(path+"/"+bait+"/Processing/AllPlatesOnlyControl.txt",'w')
         withoutControl=open(path+"/"+bait+"/Processing/AllPlatesWithoutControl.txt",'w')
         All=open(path+"/"+bait+"/Processing/AllPlatesWithControl.txt",'w')

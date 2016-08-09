@@ -1,17 +1,32 @@
 
-args=(commandArgs(TRUE))
-if(length(args)==0){
-  print("No arguments supplied.")
-  ##supply default values
-  file = ""
-  nsrep=0
-  srep=0
-}else{
-  for(i in 1:length(args)){
-    eval(parse(text=args[[i]]))
-  }
-}
+#args=(commandArgs(TRUE))
+#if(length(args)==0){
+#  print("No arguments supplied.")
+#  ##supply default values
+#  file = ""
+#  nsrep=0
+#  srep=0
+#}else{
+#  for(i in 1:length(args)){
+#    eval(parse(text=args[[i]]))
+#  }
+#}
 
+#!/usr/bin/env Rscript
+
+"
+Usage:
+  Finding.R --file=<file> --nsrep=<nsrep> --srep=<srep>
+
+Description: This is a description
+Options:
+  --file=<file>       the input file path
+  --nsrep=<nsrep>           the nsrep
+  --srep=<nsrep>            the srep
+" -> doc
+
+library(docopt)
+args <- docopt(doc)
 
 
 # rankprodbounds
@@ -373,7 +388,7 @@ newRP<-
 ## Remark: Problem in finding the package?
 ## install the package locaaly and than run transfer the package in the R built-in library
 
-newRP(file,nsrep,srep)#,outFilename = paste(folder,output,sep=""))
+newRP(args$file,as.numeric(args$nsrep),as.numeric(args$srep))#,outFilename = paste(folder,output,sep=""))
 #RankPr(file,cutoff,gene,nsrep,srep)
 
 

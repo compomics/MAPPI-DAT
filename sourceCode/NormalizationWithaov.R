@@ -1,23 +1,44 @@
 
-args=(commandArgs(TRUE))
-if(length(args)==0){
-  print("No arguments supplied.")
-  ##supply default values
-  Inputfile = ""
-  OutputFile=""
-  nsrep=0
-  srep=0
-  }else{
-  for(i in 1:length(args)){
-    eval(parse(text=args[[i]]))
-  }
-}
+#args=(commandArgs(TRUE))
+#if(length(args)==0){
+#  print("No arguments supplied.")
+#  ##supply default values
+#  Inputfile = ""
+#  OutputFile=""
+#  nsrep=0
+#  srep=0
+#  }else{
+#  for(i in 1:length(args)){
+#    eval(parse(text=args[[i]]))
+#  }
+#}
+
+
+#!/usr/bin/env Rscript
+
+"
+Usage:
+    Finding.R --InputFile=<input> --OutputFile=<output> --nsrep=<nsrep> --srep=<srep>
+
+    Description: This is a description
+    Options:
+      --InputFile=<input>       the input file path
+      --OutputFile=<output>     the output file path
+      --nsrep=<nsrep>           the nsrep
+      --srep=<nsrep>            the srep
+" -> doc
+
+library(docopt)
+args <- docopt(doc)
 
 normalization <-function(fileControl,outputfileName,nsrep,srep){
 
   library(stats)
   library(car)
-  data.without.controls=read.table(paste(fileControl,"/AllPlatesWithoutControl.txt",sep=""),header=TRUE,sep="\t")
+  print(fileControl)
+  filename=paste(fileControl,"/AllPlatesWithoutControl.txt",sep="")
+  print (filename)
+  data.without.controls=read.table(filename,header=TRUE,sep="\t")
   data.copy=data.without.controls
   data.without.controls$IntegralIntensity_um2=log2(data.without.controls$IntegralIntensity_um2)
   aov.out <- aov(IntegralIntensity_um2 ~ SourceWell * SourcePlate, data.without.controls) # build a model without using the control samples
@@ -26,7 +47,7 @@ normalization <-function(fileControl,outputfileName,nsrep,srep){
   data.without.controls$IntegralIntensity_um2=data.copy$IntegralIntensity_um2
   write.table(data.without.controls,file=outputfileName,sep="\t",row.names=F)
 ## now make a plot for controls+
-  AllPlatesWithControl <- read.table(paste(fileControl,"/AllPlatesOnlyControl.txt",sep=""),header=TRUE,sep="\t")
+  AllPlatesWithControl <- read.table(paste(fileControl,'/AllPlatesOnlyControl.txt',sep=''),header=TRUE,sep="\t")
   controls <- subset(AllPlatesWithControl, AllPlatesWithControl$type == "control+")
   controls$IntegralIntensity_um2=log2(controls$IntegralIntensity_um2)
   pdf(file=paste(fileControl,'/BoxPlotControlsAllPlates.pdf',sep=""))
@@ -63,4 +84,4 @@ normalization <-function(fileControl,outputfileName,nsrep,srep){
 
 #fileControl="C:/Users/surya/Desktop/ProjectData/MAPPI-DATdata/18Jan16/MAPPIDAT_OutPut/"
 
-normalization(Inputfile,OutputFile,nsrep,srep)
+normalization(args$InputFile,args$OutputFile,as.numeric(args$nsrep),as.numeric(args$srep))

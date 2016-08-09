@@ -127,14 +127,16 @@ def processAnalysisNormalization(LinkageFile,FolderPath,xmlfile,analy,cut,gen,ns
         mainPath=path+"/"+eachBait
         Processing.MergeFiles(mainPath+"/Processing/AllPlatesOnlyControl",{17: "IntegralIntensity"},nslist,slist) ## this will merge all intensity,for controls together
 
-        InputFileName="\'"+mainPath+"/Processing/"+"\'"
-        Outputfilename="\'"+mainPath+"/Analysis/AllPlatesWithoutControlNormalized.txt"+"\'"
-        fileRP= Rpath+" --vanilla --no-save < NormalizationWithaov.R --args Inputfile="+ InputFileName\
-                +" OutputFile="+Outputfilename+" nsrep="+str(nsrep)+" srep="+str(srep)+" > OutputRP1 2> ErrorRp1" #+" cutoff="+str(cut)+" gene="+str(gen)+\
-        fileRP= '\"'+ fileRP +'\"'
-        print fileRP
+        InputFileName=mainPath+"/Processing/"
+        Outputfilename=mainPath+"/Analysis/AllPlatesWithoutControlNormalized.txt"
+        # print Outputfilename
+        fileRP= Rpath+" --vanilla NormalizationWithaov.R --InputFile="+ InputFileName\
+                +" --OutputFile="+Outputfilename+" --nsrep="+str(nsrep)+" --srep="+str(srep)+" > OutputRP1 2> ErrorRp1" #+" cutoff="+str(cut)+" gene="+str(gen)+\
+        # fileRP= '\"'+ fileRP +'\"'
+#        print fileRP
         os.system(fileRP)
         print "Finished Normalization.."
+		
         ##################################################################################################
         # now merge the files for each bait
         File2BMerge=mainPath+"/Analysis/AllPlatesWithoutControlNormalized"
@@ -142,14 +144,15 @@ def processAnalysisNormalization(LinkageFile,FolderPath,xmlfile,analy,cut,gen,ns
 
         print "Analysis started...."
         pplot.append(PlottingDist.plot(File2BMerge,len(nslist),len(slist)))
+		
         ###################################################################################################
         if analy:
-            namer="\'"+File2BMerge+"\'"
-            fileRP= Rpath+" --vanilla --no-save < NewAnalysisMappiDat.R --args file="+namer \
-                    +" nsrep="+str(nsrep)+" srep="+str(srep)+" > OutputRP2 2> ErrorRp2" #+" cutoff="+str(cut)+" gene="+str(gen)+\
+            # namer="\'"+File2BMerge+"\'"
+            fileRP= Rpath+" --vanilla NewAnalysisMappiDat.R --file="+File2BMerge \
+                    +" --nsrep="+str(nsrep)+" --srep="+str(srep)+" > OutputRP2 2> ErrorRp2" #+" cutoff="+str(cut)+" gene="+str(gen)+\
 
-            fileRP= '\"'+ fileRP +'\"'
-            print fileRP
+            # fileRP= '\"'+ fileRP +'\"'
+#            print fileRP
             os.system(fileRP)
             ## apply particle count filtration
             if not PCpresent:
