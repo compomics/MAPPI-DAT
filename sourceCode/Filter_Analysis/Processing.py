@@ -5,6 +5,8 @@ _author_ ="surya"
 name to each interaction; merging all the files based on the different quantification values
 """
 
+controlList = ["control+", "SD+control"]
+
 #################### Folder and file information ####################################
 ################ create a dic for linkage file containing the bait, file and annotation information  ####################
 
@@ -58,11 +60,11 @@ def FolderCreationOnlyBait(link,pathList):
         withoutControl=open(path+"/"+bait+"/Processing/AllPlatesWithoutControl.txt",'w')
         All=open(path+"/"+bait+"/Processing/AllPlatesWithControl.txt",'w')
         OnlyControl.write("UniqueId\ttype\tuniqueName\tEntrenzName\tPlateId\tSourcePlate\tSourceWell\tID\tBlock\tSpotRow\tSpotColumn\t"
-                      "ParticleCount\tMeanArea_um2\tAreaFraction\tMeanGrayValueMean\tMeanIntegralIntensity\tGrayValueMean\tIntegralIntensity_um2\n")
+                      "ParticleCount\tMeanArea_um2\tGreyValueMean\tMeanGrayValueMean\tMeanIntegralIntensity\tAreaFraction\tIntegralIntensity_um2\n")
         withoutControl.write("UniqueId\ttype\tuniqueName\tEntrenzName\tPlateId\tSourcePlate\tSourceWell\tID\tBlock\tSpotRow\tSpotColumn\t"
-                      "ParticleCount\tMeanArea_um2\tAreaFraction\tMeanGrayValueMean\tMeanIntegralIntensity\tGrayValueMean\tIntegralIntensity_um2\n")
+                      "ParticleCount\tMeanArea_um2\tGreyValueMean\tMeanGrayValueMean\tMeanIntegralIntensity\tAreaFraction\tIntegralIntensity_um2\n")
         All.write("UniqueId\ttype\tuniqueName\tEntrenzName\tPlateId\tSourcePlate\tSourceWell\tID\tBlock\tSpotRow\tSpotColumn\t"
-                      "ParticleCount\tMeanArea_um2\tAreaFraction\tMeanGrayValueMean\tMeanIntegralIntensity\tGrayValueMean\tIntegralIntensity_um2\n")
+                      "ParticleCount\tMeanArea_um2\tGreyValueMean\tMeanGrayValueMean\tMeanIntegralIntensity\tAreaFraction\tIntegralIntensity_um2\n")
 
     return path
 
@@ -71,27 +73,57 @@ def FolderCreationOnlyBait(link,pathList):
 
 ### create a separate working space containing each bait in different folder
 
-def FolderCreation(link,linkdic):
+def FolderCreation(mainPath,mainProcessedFile):
     #create folder for each of these keys
-    path = link + "/" + "dataProcessing"
-#    print path
+    path = mainPath + "/MAPPIDAT_OutPut"
+    #    print path
     import os
     if not os.path.isdir(path):
         os.makedirs(path)
-    for bait in linkdic:
-        if not os.path.isdir(path+"\\"+linkdic[bait][0]+"\\"+bait):
-                os.makedirs(path+"\\"+linkdic[bait][0]+"\\"+bait)
-        open(path+"/"+linkdic[bait][0]+"/AllPlatesNewHits.txt",'w')
-        open(path+"/"+linkdic[bait][0]+"/AllPlate_SdConAsp.txt",'w')
-        open(path+"/"+linkdic[bait][0]+"/AllPlatesCon_New_MergedTogether.txt",'w')
-        open(path+"/"+linkdic[bait][0]+"/QuartileThresholdForEachPlate.txt",'w')
-        open(path+"/"+linkdic[bait][0]+"/AllPlateNewHits_ForSoftwareInput.txt",'w')
-#        SoftwareInput.write("SourcePlate\tWell\tBlock1\tRow\tCol\tType\ttunique_name\tEntrenzID\tARTNumber\tRP/Rsum\tFC:(class1/class2)\tpfp\tP-Value\tFoldChange\tNS\tStim\tStim\tStim\tNA_mad\tS_mad\tPC_NS\tPC_S\tPC_S\tPC_S")
+    baitpath=path+"/Bait"
+    dirList = [baitpath + "/Processing", baitpath + "/Analysis"]
+    for each in dirList:
+        if not os.path.isdir(each):
+            os.makedirs(each)
+    OnlyControl = open(baitpath + "/Processing/AllPlatesOnlyControl.txt","w")
+    withoutControl =open(baitpath + "/Processing/AllPlatesWithoutControl.txt","w")
+    All= open(baitpath + "/Processing/AllPlatesWithControl.txt","w")
+    OnlyControl.write(
+        "UniqueId\ttype\tuniqueName\tEntrenzName\tPlateId\tSourcePlate\tSourceWell\tID\tBlock\tSpotRow\tSpotColumn\t"
+        "ParticleCount\tMeanArea_um2\tAreaFraction\tMeanGrayValueMean\tMeanIntegralIntensity\tGrayValueMean\tIntegralIntensity_um2\n")
+    # withoutControl.write(
+    #     "UniqueId\ttype\tuniqueName\tEntrenzName\tPlateId\tSourcePlate\tSourceWell\tID\tBlock\tSpotRow\tSpotColumn\t"
+    #     "ParticleCount\tMeanArea_um2\tAreaFraction\tMeanGrayValueMean\tMeanIntegralIntensity\tGrayValueMean\tIntegralIntensity_um2\n")
+    # All.write("UniqueId\ttype\tuniqueName\tEntrenzName\tPlateId\tSourcePlate\tSourceWell\tID\tBlock\tSpotRow\tSpotColumn\t"
+    #           "ParticleCount\tMeanArea_um2\tAreaFraction\tMeanGrayValueMean\tMeanIntegralIntensity\tGrayValueMean\tIntegralIntensity_um2\n")
+    #
+    # All.close()
+    # withoutControl.close()
+    OnlyControl.close()
 
+    open(baitpath + "/Processing/AllPlatesWithControl.txt", "W").writelines([l for l in open(mainProcessedFile).readlines()])
+    open(baitpath + "/Processing/AllPlatesWithoutControl.txt", "a").writelines([l for l in open(mainProcessedFile).readlines() if controlList[0] not in l and controlList[1] not in l])
+    open(baitpath + "/Processing/AllPlatesOnlyControl.txt", "a").writelines([l for l in open(mainProcessedFile).readlines() if controlList[0] in l or controlList[1] in l])
+
+    All.close()
+    withoutControl.close()
+    OnlyControl.close()
     return path
 
 #### add protein name to each bait prey interaction and label them if they are A-specific or specific ###############
 #####################################################################################################################
+
+############### copy file from the raw data to inside the folder
+
+def copyRawFile2MappiDatFolder(pathwotmappitFolder,baitName,mainProcessedFile):
+    baitpath=pathwotmappitFolder + "/MAPPIDAT_OutPut/"+baitName
+    open(baitpath + "/Processing/AllPlatesWithControl.txt", "w").writelines\
+        ([l for l in open(mainProcessedFile).readlines()])
+    open(baitpath + "/Processing/AllPlatesWithoutControl.txt", "w").writelines\
+        ([l for l in open(mainProcessedFile).readlines() if controlList[0] not in l and controlList[1] not in l])
+    open(baitpath + "/Processing/AllPlatesOnlyControl.txt", "a").writelines\
+        ([l for l in open(mainProcessedFile).readlines() if controlList[0] in l or controlList[1] in l])
+
 
 ## create a dictionary containing each block+row+column and id and others as value
 def proteinDic(file): ## file: each protein annotation file
@@ -185,7 +217,7 @@ def MergeFiles(filename,colDic,nslist,slist):
         for pro in dic:
             if len(dic[pro][0])!=len(nslist) or len(dic[pro][1]) !=len(slist):
                 print dic[pro]
-                print key,well,value
+                print pro
                 print " number of replicates are not similar to define number of replicates.. please check again!"
                 return False
                 # print dic[pro]
@@ -284,4 +316,16 @@ def GetAspecifics(file):
             dic[unique]=line.strip()
     return dic
 
+
+## get aspecific from the reprocesed data and create dic
+def GetAspecificFromReprocessedData(reproceedDataFile):
+    dic={}
+    with open(reproceedDataFile) as Afile:
+        next(Afile)
+        for line in Afile:
+            splits=line.split("\t")
+            unique=splits[2].strip()
+            if splits[1].strip()=="A-specific":
+                dic[unique]=line.strip()
+    return dic
 

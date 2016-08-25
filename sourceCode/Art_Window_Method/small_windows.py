@@ -20,10 +20,6 @@ def artWindow():
     # txt = PhotoImage(file="txt.gif")
     artName,art_date,prepBy, extra_info,artConcFilename=StringVar(),StringVar(),StringVar(),StringVar(),StringVar()
     art_date.set(today_date)
-    # extra
-    # extra_info.set("Testing database")
-    # artConcFilename.set("C:/Users/surya/Desktop/ProjectData/MAPPI-DATdata/sampleFor1replicate/DnaConcentrationFile.txt")
-    # prepBy.set("Surya")
 
 
 
@@ -117,13 +113,6 @@ def deletebutton(cursonSelection,finalBox,date2Ali,frame1):
     for i in range(cursonSelection,finalBox.size()):
         date2Ali[i]=date2Ali.pop(i+1)
     ttk.Label(frame1, text=" the selected items are: "+str(len(date2Ali))).grid(column=6, row=2, sticky=W)
-    # print date2Ali
-    # print dates
-    # if dates in date2Ali:
-    #     if date2nameList[dates][finalBox.curselection()[0]] in date2Ali[dates]:
-    #         date2Ali[dates].remove(date2nameList[dates][finalBox.curselection()[0]])
-    #         print date2nameList[dates][finalBox.curselection()[0]]
-
 
 
 def aliqotesNames(frame1,dates_index,date2name,dateList,date2Aliqot,root,finalBox,tplate,mix_date,prep_by,m_type,extra_info,haveArtInfo):

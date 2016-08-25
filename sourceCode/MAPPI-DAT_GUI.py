@@ -9,7 +9,7 @@ import ttk
 from Tkinter import PhotoImage
 import os
 from DatabaseWindows import re_test_window, selection_database_type, DataBaseWindow
-from Gui_support import Gui_looks
+from Gui_support import Gui_looks, GuiCommands
 from tkMessageBox import *
 import Process_Analysis_Normalization
 from Mysql_queries import MySqlConnection
@@ -51,28 +51,43 @@ def default():
 #################################### Run Analysis ##########################################################
 ############################################################################################################
 
+
 def files():
+    run=False
     ## check if all the important fields are entered
-    if os.path.isfile(pfile.get()) and os.path.isfile(file.get()) and os.path.isdir(link.get()) and cutoff.get()!="" \
-            and geneNum.get()!="" and nslist.get()!="" and slist.get()!="" and quartfilt.get() !="" and allprocess.get()!="":
-## run the analysis
-        path,Positive_count,pplot,Tplate2Path,bait2PlateList,plate2subfolder,AspecificDic,linkageDic,plate_tfileDic=\
-            Process_Analysis_Normalization.processAnalysisNormalization(pfile.get(),link.get(),file.get(),analysis.get(),
-            float(cutoff.get()),float(geneNum.get()),nslist.get(),slist.get(),quartfilt.get(),allprocess.get(),aspecifics.get(),aspecificpresent.get(),PCpresent.get(),PCthreshold.get(),cnx)
-
-## if database are checked and than initiate database entry as well
-        if databasedo.get():
-            if checkingDublicateEntry.checkExistingInfo(plate2subfolder,cnx):
-                DataBaseWindow.DatabaseEntry(Tplate2Path,bait2PlateList,plate2subfolder,nslist,slist,projname,projReason,expgrpname,baitname,expname,today_date,
-                      expReason,Scanningdate,mbubaitcode,baitVectorType,stimulusType,stimulusconc,protocolType,
-                    treatmentType,treatementConc,Treatementdate,treatment_starttime,treatment_endtime,AspecificDic,cnx,mappit,#plateinfo
-                      maspit,kiss,treatment,fusioncpd,fusioncpdConc,moleculeExtraInfo,linkageDic,cutoff,
-                        PCthreshold,quartfilt,plate_tfileDic,PCpresent,BaitTransfectDate,path)
-
-
+    if ReProcessing.get():
+        if os.path.isfile(file.get()) and os.path.isdir(
+                link.get()) and cutoff.get() != "" \
+                and geneNum.get() != "" and nslist.get() != "" and slist.get() != "" and quartfilt.get() != "":
+            run=True
+        else:
+            ErrorHandling.IO_prob("Please fill all the required field with valid input...")
+            run=False
     else:
-        ErrorHandling.IO_prob("Please fill all the required field with valid input...")
-#    print "Done !!!"
+        if os.path.isfile(pfile.get()) and os.path.isfile(file.get()) and os.path.isdir(link.get()) and cutoff.get()!="" \
+                and geneNum.get()!="" and nslist.get()!="" and slist.get()!="" and quartfilt.get() !="" and allprocess.get()!="":
+            run=True
+        else:
+            ErrorHandling.IO_prob("Please fill all the required field with valid input...")
+            run=False
+    if run:
+            ## run the analysis
+            path,Positive_count,pplot,Tplate2Path,bait2PlateList,plate2subfolder,AspecificDic,linkageDic,plate_tfileDic=\
+                Process_Analysis_Normalization.processAnalysisNormalization(pfile.get(),link.get(),file.get(),analysis.get(),
+                float(cutoff.get()),float(geneNum.get()),nslist.get(),slist.get(),quartfilt.get(),allprocess.get(),aspecifics.get(),
+                aspecificpresent.get(),PCpresent.get(),PCthreshold.get(),ReProcessing.get(),cnx)
+
+    ## if database are checked and than initiate database entry as well
+            if databasedo.get():
+                if checkingDublicateEntry.checkExistingInfo(plate2subfolder,cnx):
+                    DataBaseWindow.DatabaseEntry(Tplate2Path,bait2PlateList,plate2subfolder,nslist,slist,projname,projReason,expgrpname,baitname,expname,today_date,
+                          expReason,Scanningdate,mbubaitcode,baitVectorType,stimulusType,stimulusconc,protocolType,
+                        treatmentType,treatementConc,Treatementdate,treatment_starttime,treatment_endtime,AspecificDic,cnx,mappit,#plateinfo
+                          maspit,kiss,treatment,fusioncpd,fusioncpdConc,moleculeExtraInfo,linkageDic,cutoff,
+                            PCthreshold,quartfilt,plate_tfileDic,PCpresent,BaitTransfectDate,path)
+
+
+    #    print "Done !!!"
 
 ##########################################################################################################################################################
 ##########################################################################################################################################################
@@ -118,15 +133,18 @@ information_logo=PhotoImage(file="pictures/info.gif")
 ###################################################################################################
 Gui_looks.CreateLabels(enter,["Primary Filtration & Analysis"],row_start=0,b=background ,f=("Helvetica", 15, "bold"),col_start=3,s=(W))
 
-file,pfile,link,cutoff,geneNum,nslist,slist,aspecifics,PCthreshold = StringVar(),StringVar(),StringVar(),StringVar(),StringVar(),StringVar(),StringVar(),StringVar(),StringVar()
+file,pfile,link,cutoff,geneNum,nslist,slist,aspecifics,PCthreshold = StringVar(),StringVar(),StringVar(),StringVar(),\
+                                StringVar(),StringVar(),StringVar(),StringVar(),StringVar()
 
-analysis,quartfilt,allprocess,databasedo,aspecificpresent,PCpresent=BooleanVar(),BooleanVar(),BooleanVar(),BooleanVar(),BooleanVar(),BooleanVar()
+analysis,quartfilt,allprocess,databasedo,aspecificpresent,PCpresent,ReProcessing=BooleanVar(),BooleanVar(),BooleanVar(),\
+                                BooleanVar(),BooleanVar(),BooleanVar(),BooleanVar()
 
 analysis.set(False)
 quartfilt.set(False)
 allprocess.set(False)
 databasedo.set(False)
 PCpresent.set(False)
+ReProcessing.set(False)
 photos=[]
 
 file_entry = Entry(enter, width=12, textvariable=file)
@@ -162,6 +180,8 @@ if cnx!="":
 
 aspecificpresent_entry = Checkbutton(enter, text="Include A-specific Filtration", variable=aspecificpresent, onvalue=True,bg=background ,font = "Helvetica 10")
 PCpresent_entry = Checkbutton(enter, text="Include Particle Count Threshold", variable=PCpresent, onvalue=True,bg=background ,font = "Helvetica 10")
+ReProcessing_entry = Checkbutton(enter, text="ReProcess Data", variable=ReProcessing, onvalue=True,bg=background ,font = "Helvetica 10",
+        command=lambda: GuiCommands.disableForReprocessing(asepcific_entry,aspecificpresent_entry,host_box=ReProcessing.get()) )
 
 
 file_entry.grid(column=2, row=1,columnspan=3, sticky=(W, E))
@@ -172,6 +192,7 @@ asepcific_entry.grid(column=2, row=4,columnspan=3, sticky=(W, E))
 PCpresent_entry.grid(column=2,row=5,sticky=E)
 PCthreshold_entry.grid(column=3,row=5,sticky=W)
 aspecificpresent_entry.grid(column=4,row=5,sticky=W)
+ReProcessing_entry.grid(column=1,row=5,sticky=(W, E))
 
 
 # PlateInfo_entry.grid(column=2, row=6,columnspan=3, sticky=(E,W))

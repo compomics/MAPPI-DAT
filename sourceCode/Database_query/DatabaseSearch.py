@@ -9,7 +9,7 @@ from Mysql_queries import questions_query, Project_Query
 from Gui_support import Gui_looks
 from Plotting_graph import PlottingDist
 from Mysql_queries import MySqlConnection
-from Database_query import Recovering_retestData
+from Database_query import Recovering_retestData,Method2ExportData
 
 
 background = "grey95"
@@ -27,7 +27,9 @@ def chooseexp(cnx,p_value,e_value,All_experiments,exp_List,Overview,bg_toshow,Re
                           "A-specifics NotFound":"Name\tType\tEntrenzName\n",
                          "NewHits Found":"Name\tType\tEntrenzName\tFC\tQ-val\tP_value\tFiltration_label\n",
                           "NewHits NotFound":"Name\tType\tEntrenzName\n",
+                        "cytoscapeFile":"Interactor1\tInteractor2\tUniqueName2\tType\tFC\tQ-val\tP_value\tFiltration_label\n"
                         }
+
 
     # try:
         secondIndex=exp_List.curselection()[0]
@@ -111,6 +113,7 @@ def chooseexp(cnx,p_value,e_value,All_experiments,exp_List,Overview,bg_toshow,Re
 
         bait=Project_Query.Select_all(Project_Query.bait,cnx,arg=True,argument=(p_value[len(p_value)-1],e_value[len(e_value)-1],expvalue)) ## b.b_name,c.mbu_bait_code,c.bait_vector_type
         ExportList["Bait"]=bait
+        baitName=bait[0]
         def get_bait():
             Gui_looks.create_window(bait,"Bait Name;MBU_bait_code;bait_vector_type".split(";"),row=True,col_start=2,smallwid=True)
 
@@ -189,32 +192,35 @@ def chooseexp(cnx,p_value,e_value,All_experiments,exp_List,Overview,bg_toshow,Re
         NotFound.append(len(aspec_nf))
         Gui_looks.create_button(frame3,NotFound,row=False,row_start=5,col_start=2,f="Helvetica 10",g="dark green",b=background,command_input=[NFna,NFaspec])
 
-##............................................................................................................................
+        ##............................................................................................................................
 
 ## check which of the arguments are selected and than print the related file
         def export():
             for varindex in range(len(checkVar)):
                 if checkVar[varindex].get():
-                    exportfile=open(checkVarPath[0].get()+"/"+checkNames[varindex]+".txt","w")
-                    exportfile.write(ExportListHeader[checkNames[varindex]])
-#                    print checkVarPath[varindex].get()
-                    if checkNames[varindex] in ["Bait","Molecule"]:
-                        exporline=[]
-                        for lines in ExportList[checkNames[varindex]]:
-                                exporline.append(lines+"\t")
-                        exporline.append("\n")
-    #                        print exporline
-                        exportfile.writelines(exporline)
+                    if checkNames[varindex] in ["RawDataFiles"]:
+                        Method2ExportData.exportProcessedData(expvalue, e_value[-1], p_value[-1],cnx,checkVarPath[0].get())
                     else:
-#                        print(ExportList[checkNames[varindex]])
-                        for lines in ExportList[checkNames[varindex]]:
+                        exportfile=open(checkVarPath[0].get()+"/"+checkNames[varindex]+".txt","w")
+                        exportfile.write(ExportListHeader[checkNames[varindex]])
+    #                    print checkVarPath[varindex].get()
+                        if checkNames[varindex] in ["Bait","Molecule"]:
                             exporline=[]
-                            for val in lines:
-                                exporline.append(str(val)+"\t")
+                            for lines in ExportList[checkNames[varindex]]:
+                                    exporline.append(lines+"\t")
                             exporline.append("\n")
-    #                        print exporline
+        #                        print exporline
                             exportfile.writelines(exporline)
-                    exportfile.close()
+                        elif checkNames[varindex] in ["cytoscapeFile"]:
+                            for lineList in ExportList["NewHits Found"]:
+                                exporline="\t".join([baitName,lineList[2],lineList[0],lineList[1]]+lineList[3:])+"\n"
+                                exportfile.write(exporline)
+                        else:
+                        #                        print(ExportList[checkNames[varindex]])
+                            for lines in ExportList[checkNames[varindex]]:
+                                exporline="\t".join(lines)+"\n"
+                                exportfile.write(exporline)
+                        exportfile.close()
                     print "finised writing ",checkNames[varindex],"in the file ",checkVarPath[0].get()+"/"+checkNames[varindex]+".txt"
 
 ## create the export buttons
@@ -232,8 +238,9 @@ def chooseexp(cnx,p_value,e_value,All_experiments,exp_List,Overview,bg_toshow,Re
                 Checkbutton(root, text=checkNames[ind], variable=checkVar[ind], onvalue=True,font = "Helvetica 10").grid(column=1, row=1+ind,sticky="W") ## this create check buttons
             Entry(root, width=12, textvariable=checkVarPath[0]).grid(column=2, row=14,columnspan=10,sticky=(W, E))## this create the entry for the path
 
-            Gui_looks.CreateLabels(root,[ExportInformation.prey,ExportInformation.bait,ExportInformation.molecule,ExportInformation.NewHitsFound,ExportInformation.NewHitNotFound,
-                                         ExportInformation.AspecificFound,ExportInformation.AspecificNotFound],col_start=2,s=(W))
+            Gui_looks.CreateLabels(root,[ExportInformation.prey,ExportInformation.bait,ExportInformation.molecule,
+                    ExportInformation.NewHitsFound,ExportInformation.NewHitNotFound,ExportInformation.AspecificFound,
+                    ExportInformation.AspecificNotFound,ExportInformation.RawDataInfo,ExportInformation.CytoscapeInputFile],col_start=2,s=(W))
             Gui_looks.create_button(root,["Browse"],col_start=13,command_input=[lambda:checkVarPath[0].set(askdirectory())],s=(E,W),row_start=14)
             Gui_looks.CreateLabels(root,["*Enter the folder location where to save all selected files"],row_start=15,col_start=2,g="red")
             Button(root, text="Export", command=export,fg="red",font = "Helvetica 10",relief=RAISED).grid(column=3, row=16, sticky=W)

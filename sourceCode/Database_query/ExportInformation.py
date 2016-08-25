@@ -12,3 +12,5 @@ NewHitsFound="This will give the list of New Hits protein found positives in the
 NewHitNotFound="This will give the list of prey proteins not found positives in the experiment"
 AspecificFound="This will give the list of A-specific protein found positives in the experiment"
 AspecificNotFound="This will give the list of A-specific protein Not found positives in the experiment"
+RawDataInfo="Provide with all the printed files together for the re-analysis with controls and protein annotations"
+CytoscapeInputFile="This is provide a file with the names of both interactors and also compatible with cytoscape"

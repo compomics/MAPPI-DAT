@@ -31,3 +31,4 @@ def connectSql():
 def ReturnCnxForMySql(cnx):
     cursor1 = cnx.cursor()
     return cursor1
+

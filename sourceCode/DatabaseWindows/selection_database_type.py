@@ -4,7 +4,7 @@ __author__ = 'surya'
 
 
 from Tkinter import *
-from Gui_support import Gui_looks
+from Gui_support import Gui_looks, GuiCommands
 from DatabaseWindows import maspit_window,mappit_window,kiss_window
 background="grey95"
 
@@ -23,27 +23,6 @@ stimulusconc,protocolType,treatmentType,treatementConc,Treatementdate,treatment_
 
     root.destroy()
 
-########################################################################################################################
-######################### diable other buttons #########################################################################
-########################################################################################################################
-
-def disable_checkbox(checkbox1,checkbox2=0,treatment=0,treatment_opp=0,host_box=False):
-    if host_box:
-        checkbox1.configure(state='disabled')
-        if checkbox2!=0:
-            checkbox2.configure(state='disable')
-        if treatment!=0:
-            treatment.configure(state='normal')
-        if treatment_opp!=0:
-            treatment_opp.configure(state='disable')
-    else:
-        checkbox1.configure(state='normal')
-        if checkbox2!=0:
-            checkbox2.configure(state='normal')
-        if treatment!=0:
-            treatment.configure(state='disable')
-        if treatment_opp!=0:
-            treatment_opp.configure(state='disable')
 
 
 
@@ -72,11 +51,11 @@ stimulusconc,protocolType,treatmentType,treatementConc,Treatementdate,treatment_
         treatment.set(False)
 
         mappit_entry = Checkbutton(root, text="MAPPIT", variable=mappit, onvalue=True,bg=background ,font = "Helvetica 10",
-                                   command=lambda:disable_checkbox(maspit_entry,kiss_entry,treatment_entry,host_box=mappit.get()))
+                                   command=lambda:GuiCommands.disable_checkbox(maspit_entry,kiss_entry,treatment_entry,host_box=mappit.get()))
         maspit_entry = Checkbutton(root, text="MASPIT", variable=maspit, onvalue=True,bg=background ,font = "Helvetica 10",
-                                   command=lambda:disable_checkbox(mappit_entry,kiss_entry,host_box=maspit.get()))#,treatment_opp=treatment_entry))
+                                   command=lambda:GuiCommands.disable_checkbox(mappit_entry,kiss_entry,host_box=maspit.get()))#,treatment_opp=treatment_entry))
         kiss_entry = Checkbutton(root, text="KISS    ", variable=kiss, onvalue=True,bg=background ,font = "Helvetica 10",
-                                 command=lambda:disable_checkbox(maspit_entry,mappit_entry,treatment_entry,host_box=kiss.get()))
+                                 command=lambda:GuiCommands.disable_checkbox(maspit_entry,mappit_entry,treatment_entry,host_box=kiss.get()))
         treatment_entry = Checkbutton(root, text="Treatment", variable=treatment, onvalue=True,bg=background ,font = "Helvetica 10")
         treatment_entry.configure(state='disable')
 

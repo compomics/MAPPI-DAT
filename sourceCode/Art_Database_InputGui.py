@@ -39,9 +39,6 @@ mainframe.rowconfigure(4, weight=3)
 cnx=""
 try:
     cnx= MySqlConnection.connectSql()
-    # import mysql.connector
-    # cnx = mysql.connector.connect(user='mappit', database='testmappit', password='allowme',host='sqlnode.ugent.be')
-#    cnx = mysql.connector.connect(user='root', database='mydb', password='password')
 except Exception:
     print("Database is not connected")
     pass
@@ -57,25 +54,5 @@ if cnx!="":
     ttk.Button(mainframe, text="Add Printing Info", command=small_windows.ScreeningWindow).grid(column=4, row=2, sticky=W)
 
 
-## end buttons
-
-
-
-
-
-
-# ttk.Label(mainframe, text=" please select one of this........ ").grid(column=5, row=1, sticky=W)
-
-
-# feet_entry = ttk.Entry(mainframe, width=7, textvariable=FileName)
-# feet_entry.grid(column=2, row=1, sticky=(W, E),columnspan=10)
-#
-# ttk.Button(mainframe, text="Calculate", command=changefile).grid(column=1, row=2, sticky=W)
-# Button(mainframe,text="Browse",command=(lambda:FileName.set(askopenfilename())),relief=RAISED).grid(column=11,row=1,sticky=(E))
-#
-#
-# ttk.Label(mainframe, text="FileName: ").grid(column=1, row=1, sticky=W)
-#
-# Label(mainframe, textvariable=done,font = "Helvetica 10").grid(column=1, row=3, sticky=(W,E))
 
 root.mainloop()

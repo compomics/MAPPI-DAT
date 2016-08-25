@@ -139,14 +139,16 @@ def query_window(Overview,cnx,callback, information_logo):
             checkVar=elist,checkNames=EcheckNames,checkVarPath=Epath,info_logo=information_logo)))
 
     ######## Export Window
-    Eprey,Ebait,Emolecule,Esdfound,Esdnotfound,Ecfound,Ecnotfound,Enafound,Enanotfound,Easpecfound,Easpecnotfound=BooleanVar(),\
-            BooleanVar(),BooleanVar(),BooleanVar(),BooleanVar(),BooleanVar(),BooleanVar(),BooleanVar(),BooleanVar(),BooleanVar(),BooleanVar()
+    Eprey,Ebait,Emolecule,Esdfound,Esdnotfound,Ecfound,Ecnotfound,Enafound,Enanotfound,Easpecfound,Easpecnotfound,ErawData,\
+    EcytoscapeFile=BooleanVar(),BooleanVar(),BooleanVar(),BooleanVar(),BooleanVar(),BooleanVar(),BooleanVar(),BooleanVar(),\
+                   BooleanVar(),BooleanVar(),BooleanVar(),BooleanVar(),BooleanVar()
 
-    elist=[Eprey,Ebait,Emolecule,Esdfound,Esdnotfound,Ecfound,Ecnotfound,Enafound,Enanotfound,Easpecfound,Easpecnotfound]
+    elist=[Eprey,Ebait,Emolecule,Esdfound,Esdnotfound,Ecfound,Ecnotfound,Enafound,Enanotfound,Easpecfound,Easpecnotfound,ErawData,EcytoscapeFile]
 
     Folderpath=StringVar()
     Epath=[Folderpath]
-    EcheckNames="Prey,Bait,Molecule,NewHits Found,NewHits NotFound,A-specifics Found,A-specifics NotFound".split(",")
+    EcheckNames="Prey,Bait,Molecule,NewHits Found,NewHits NotFound,A-specifics Found,A-specifics NotFound," \
+                "RawDataFiles,cytoscape compatible File".split(",")
 
 ################ retest window
     RetestExportPath=StringVar()

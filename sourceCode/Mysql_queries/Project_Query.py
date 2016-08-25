@@ -36,7 +36,8 @@ conditionInfowithTreatment="""select c.Stimulus_type,c.Stimulus_conc,c.BaitTrans
                 where p.p_name=%s and ex.e_name=%s and e.e_name=%s"""
 
 plates=""" select l.p_name from plates l
-            inner join experiments e on e.experiment_id=l.ref_expid
+            inner join exp_has_plates ep on l.plate_id=ep.ref_plateid
+            inner join experiments e on e.experiment_id=ep.ref_expid
             inner join experiment_group g on e.ref_expgrpid=g.expgrp_id
             inner join project p on g.ref_projid=p.project_id
             where p.p_name=%s and g.e_name=%s and e.e_name=%s"""
@@ -45,7 +46,8 @@ Stimulating_intInt="""select q.IntInt from quantificationval q
                     inner join spots s on s.spot_id=q.ref_spotid
                     inner join well w on w.well_id=s.ref_wellid
                     inner join plates l on l.plate_id=w.ref_platid
-                    inner join experiments e on e.experiment_id=l.ref_expid
+                    inner join exp_has_plates ep on l.plate_id=ep.ref_plateid
+                    inner join experiments e on e.experiment_id=ep.ref_expid
                     inner join experiment_group g on e.ref_expgrpid=g.expgrp_id
                     inner join project p on g.ref_projid=p.project_id
                     where p.p_name=%s and g.e_name=%s and e.e_name=%s and l.p_name=%s and w.Stimulus_type=%s;"""
@@ -96,12 +98,55 @@ select_positives="""select p.p_name,i.inttype,p.entrenz_name,h.fc,h.q_val,h.p_va
                     inner join project pr on pr.project_id = g.ref_projid
                     where e.e_name=  %s and g.e_name= %s and pr.p_name= %s and i.inttype= %s """
 
-# dummies_inserted="""select p.p_name,i.inttype from interactors i
-#                     inner join prey p on p.prey_id=i.ref_preyid
-#                     inner join experiment_group g on g.expgrp_id=i.ref_expgrpid
-#                     inner join experiments e on e.ref_expgrpid= g.expgrp_id
-#                     inner join project pr on pr.project_id = g.ref_projid
-#                     where e.e_name=  %s and g.e_name= %s and pr.p_name= %s and i.inttype= %s"""
+
+## get the number plates for the particular plate
+platesNames=""" select pl.p_name from plates pl
+                inner join exp_has_plates ep on pl.plate_id=ep.ref_plateid
+                inner join experiments e on e.experiment_id=ep.ref_expid
+                inner join experiment_group g on e.ref_expgrpid=g.expgrp_id
+                inner join project pr on pr.project_id = g.ref_projid
+                where e.e_name=  %s and g.e_name= %s and pr.p_name= %s"""
+
+## get all the T files names for the linkage file
+LinkageFileOut=""" select b.b_name,t.p_name,pl.p_name from plates pl
+                    inner join preyannotationt t on t.pan_id=pl.ref_panid
+                    inner join exp_has_plates ep on pl.plate_id=ep.ref_plateid
+                    inner join experiments e on e.experiment_id=ep.ref_expid
+                    inner join experiment_group g on e.ref_expgrpid=g.expgrp_id
+                    inner join bait b on b.bait_id=g.ref_baitid
+                    inner join project pr on pr.project_id = g.ref_projid
+                    where e.e_name=  %s and g.e_name= %s and pr.p_name= %s
+                    """
+
+## get all the T Files data
+TFileOut=""" select distinct r.a_name,aw.w_name,aw.well1id,aw.well2id,aw.well3id,aw.well4id,s.row,s.col,p.plate_nr,aw.w_name,p.p_name,p.entrenz_name,p.entrenz_name,i.inttype,m.mixture_name from mixture m
+            inner join prey p on p.ref_mixtureid=m.mixture_id
+            inner join art r on r.art_id=p.ref_artid
+            inner join art_well aw on p.ref_artwellid=aw.well_id
+            inner join interactors i on i.ref_preyid=p.prey_id
+            inner join spots s on s.ref_interactorid=i.idInteractors
+            inner join experiment_group g on g.expgrp_id=i.ref_expgrpid
+            inner join experiments e on e.ref_expgrpid =g.expgrp_id
+            inner join project pr on pr.project_id=g.ref_projid
+            inner join preyannotationt t on t.pan_id=p.ref_panid
+            where e.e_name=  %s and g.e_name= %s and pr.p_name= %s and t.p_name=%s;
+            """
+
+
+## get raw data for each plate
+rawDataInfo=""" select aw.w_name,aw.well1id,aw.well2id,aw.well3id,aw.well4id,i.inttype,p.p_name,p.entrenz_name,p.plate_nr,pl.p_name,w.w_name,s.block,s.row,s.col,q.pc,q.meanArea,q.grayValMean,q.meanGrayValMean,q.MeanIntInt,q.area_fraction,q.IntInt from project pr
+                inner join experiment_group g on pr.project_id = g.ref_projid
+                inner join experiments e on e.ref_expgrpid=g.expgrp_id
+                inner join interactors i on i.ref_expgrpid=g.expgrp_id
+                inner join prey p on p.prey_id=i.ref_preyid
+                inner join preyannotationt t on p.ref_panid=t.pan_id
+                inner join plates pl on pl.ref_panid=t.pan_id
+                inner join spots s on s.ref_interactorid=i.idInteractors
+                inner join quantificationval q on q.ref_spotid=s.spot_id
+                inner join well w on w.well_id=s.ref_wellid
+                inner join art_well aw on aw.well_id=p.ref_artwellid
+                where e.e_name=  %s and g.e_name= %s and pr.p_name= %s"""
+
 
 NotFound    =    """select p.p_name,i.inttype,p.entrenz_name from interactors i
                     inner join prey p on p.prey_id=i.ref_preyid
@@ -194,7 +239,6 @@ def Select_all(Query,cnx,argument="Null",arg=False,int=False):
 def Select_values(Query,cnx,argument="Null",arg=False):
     if not cnx.is_connected():
         cnx=MySqlConnection.connectSql()
-#    import mysql.connector
     count=0
     small=[]
     rep_list=[]
@@ -205,10 +249,10 @@ def Select_values(Query,cnx,argument="Null",arg=False):
         cursor1.execute(Query)
     for ent in cursor1:
 #        print ent
-        small=[]
-        for val in ent:
-            small.append(str(val))
-        rep_list.append(small)
+            small=[]
+            for val in ent:
+                small.append(str(val))
+            rep_list.append(small)
     cnx.commit()
     cursor1.close()
     return rep_list
