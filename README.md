@@ -38,7 +38,7 @@ MySQL schema for the MAPPI-DAT can be downloaded from [here] (http://genesis.uge
 ## Usage
 See the [manual] (http://genesis.ugent.be/uvpublicdata/MAPPI-DAT/UserManual.pdf) for further information about how to use the tool.
 
-Sample data can be downloaded from [here] (http://genesis.ugent.be/uvpublicdata/MAPPI-DAT/SampleFolder.zip)
+Sample data can be downloaded from [here] (http://genesis.ugent.be/uvpublicdata/MAPPI-DAT/SampleData.zip)
 
 [Go to top of the page] (#mappi-dat)
 
