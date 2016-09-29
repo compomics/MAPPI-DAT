@@ -24,13 +24,13 @@
 ## Downloads
 
 **Python project:**
-MAPPI-DAT project can be downloaded from [MAPPI-DAT](http://genesis.ugent.be/uvpublicdata/MAPPI-DAT/MAPPI-DAT.zip)
+MAPPI-DAT project can be downloaded from <a href="http://genesis.ugent.be/uvpublicdata/MAPPI-DAT/MAPPI-DAT.zip" onclick="trackOutboundLink('usage','download','mappidat','http://genesis.ugent.be/uvpublicdata/MAPPI-DAT/MAPPI-DAT.zip'); return false;">MAPPI-DAT</a>.
 
 **Windows stand-alone files:**
 window compatible .exe files can be downloaded from:
 
-  * [MAPPI-DAT-MainGui](http://genesis.ugent.be/uvpublicdata/MAPPI-DAT/MAPPI-DAT-MainGui.zip)
-  * [MAPPI-DAT-SmallGui](http://genesis.ugent.be/uvpublicdata/MAPPI-DAT/MAPPI-DAT-SmallGui.zip)
+  * <a href="http://genesis.ugent.be/uvpublicdata/MAPPI-DAT/MAPPI-DAT-MainGui.zip" onclick="trackOutboundLink('usage','download','mappidat','http://genesis.ugent.be/uvpublicdata/MAPPI-DAT/MAPPI-DAT-MainGui.zip'); return false;">MAPPI-DAT-MainGui</a>
+  * <a href="http://genesis.ugent.be/uvpublicdata/MAPPI-DAT/MAPPI-DAT-MainGui.zip" onclick="trackOutboundLink('usage','download','mappidat','http://genesis.ugent.be/uvpublicdata/MAPPI-DAT/MAPPI-DAT-MainGui.zip'); return false;">MAPPI-DAT-SmallGui</a>
 
 **database schema:**
 MySQL schema for the MAPPI-DAT can be downloaded from [here](http://genesis.ugent.be/uvpublicdata/MAPPI-DAT/Mappi_datScript.sql)
