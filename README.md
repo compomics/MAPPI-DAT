@@ -6,7 +6,9 @@
  * [Project Support](#project-support)
 
 ----
+
 ![MAPPI-DAT workflow](http://genesis.ugent.be/uvpublicdata/MAPPI-DAT/mappi-dat_schem.png)
+
 ----
 
 ## Project Description
@@ -36,6 +38,7 @@ MySQL schema for the MAPPI-DAT can be downloaded from [here](http://genesis.ugen
 [Go to top of the page](#mappi-dat)
 
 ----
+
 ## Usage
 See the [manual](http://genesis.ugent.be/uvpublicdata/MAPPI-DAT/UserManual.pdf) for further information about how to use the tool.
 
@@ -44,6 +47,7 @@ Sample data can be downloaded from [here](http://genesis.ugent.be/uvpublicdata/M
 [Go to top of the page](#mappi-dat)
 
 ----
+
 ## Project Support
 
 MAPPI-DAT project is supported by:
