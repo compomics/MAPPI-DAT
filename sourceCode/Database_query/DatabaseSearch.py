@@ -27,7 +27,7 @@ def chooseexp(cnx,p_value,e_value,All_experiments,exp_List,Overview,bg_toshow,Re
                           "A-specifics NotFound":"Name\tType\tEntrenzName\n",
                          "NewHits Found":"Name\tType\tEntrenzName\tFC\tQ-val\tP_value\tFiltration_label\n",
                           "NewHits NotFound":"Name\tType\tEntrenzName\n",
-                        "cytoscapeFile":"Interactor1\tInteractor2\tUniqueName2\tType\tFC\tQ-val\tP_value\tFiltration_label\n"
+                        "cytoscape compatible File":"Interactor1\tInteractor2\tUniqueName2\tType\tFC\tQ-val\tP_value\tFiltration_label\n"
                         }
 
 
@@ -191,6 +191,12 @@ def chooseexp(cnx,p_value,e_value,All_experiments,exp_List,Overview,bg_toshow,Re
         NotFound.append(len(nafinal_nf))
         NotFound.append(len(aspec_nf))
         Gui_looks.create_button(frame3,NotFound,row=False,row_start=5,col_start=2,f="Helvetica 10",g="dark green",b=background,command_input=[NFna,NFaspec])
+    ## get all the raw data
+        # AllPlateRawData=[]
+        # AllPlates = Project_Query.Select_values(Project_Query.platesNames, cnx, arg=True,argument=(expvalue, e_value[-1], p_value[-1]))
+        # for eachPlate in AllPlates:
+        #     AllPlateRawData+=Project_Query.Select_values(Project_Query.rawDataInfo, cnx, arg=True,argument=(expvalue, e_value[-1], p_value[-1],eachPlate[0]))
+        # ExportList["RawDataFiles"]=AllPlateRawData
 
         ##............................................................................................................................
 
@@ -211,7 +217,7 @@ def chooseexp(cnx,p_value,e_value,All_experiments,exp_List,Overview,bg_toshow,Re
                             exporline.append("\n")
         #                        print exporline
                             exportfile.writelines(exporline)
-                        elif checkNames[varindex] in ["cytoscapeFile"]:
+                        elif checkNames[varindex] in ["cytoscape compatible File"]:
                             for lineList in ExportList["NewHits Found"]:
                                 exporline="\t".join([baitName,lineList[2],lineList[0],lineList[1]]+lineList[3:])+"\n"
                                 exportfile.write(exporline)

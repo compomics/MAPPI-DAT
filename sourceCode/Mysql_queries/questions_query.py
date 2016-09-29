@@ -6,6 +6,7 @@ def replicateNumber(exp,epgrp,project,cnx):
     import mysql.connector
     count=0
     rep_list=[]
+#    rep_list=["experiment\tNS\tS"]
     cursor1 = cnx.cursor()
     cursor1.execute("""select c.NSreplicate+c.Sreplicate,c.NSreplicate, c.Sreplicate from exp_condition c
                        inner join experiments e on e.ref_conditionid=c.condition_id
@@ -24,6 +25,7 @@ def HowManyPositivesIncluding(exp,epgrp,project,cnx):
     import mysql.connector
     count=0
     rep_list=[]
+#    rep_list=["Total\tControls\tSDPositives\tNA"]
     cursor1 = cnx.cursor()
     cursor1.execute("""select (select count(*) from possiblehit h
                         inner join interactors i on i.idInteractors=h.ref_interactorid

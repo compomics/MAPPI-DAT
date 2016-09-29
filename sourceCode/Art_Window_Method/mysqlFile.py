@@ -24,12 +24,12 @@ def IO_prob(problem):
     showerror("Error", problem)
 
 ## inserting only
-art_input=("""insert into art (a_name,) values (%s,)""")
-artwell_query=(""" insert into art_well (w_name) values (%s,%s,%s) """)
+art_input=("""insert into art (a_name) values (%s)""")
+artwell_query=(""" insert into art_well (w_name) values (%s) """)
 artwellinfo_query=("""insert into art_well_info (conc,ratio,ref_artwellid) values (%s,%s,%s)""")
 art2wellinfo_query=("""insert into art2well_info (ref_artwellid,ref_artinfoid) values (%s,%s)""")
-art_well_relation=("""insert into artwell_has_art (refwellid,ref_artid) values (%s,%s)""")
-art_info_query=("""insert into art_info (art_date,prepared_by,extra_info) values (%s,%s,%s)""")
+artwell_has_art=("""insert into artwell_has_art (ref_wellid,ref_artid) values (%s,%s)""")
+art_info_query=("""insert into art_info (art_date,prepared_by,extra_info,ref_artid) values (%s,%s,%s,%s)""")
 art_aliqot_query=("""insert into art_aliquot (ali_name,ali_date,prepared_by,extra_info,ref_artinfoid) values (%s,%s,%s,%s,%s)""")
 aliqot2mix_query=("""insert into aliqot2mix (ref_aliqotid,ref_mixid) values (%s,%s)""")
 mixture_query=("""insert into mixtureinfo (mix_date,Madeby,m_type,extra_info,mixplate_name,No_art_Info) values (%s,%s,%s,%s,%s,%s)""")
@@ -79,14 +79,14 @@ def addArt(aName,aDate,aPrep,extra_info,artConcFileName,root):
     else:
         cursor1 = cnx.cursor()
         # first add the data in the art main and in the art info
-        if aName not in artname2idDic:
+        if aName.get() not in artname2idDic:
             cursor1.execute(art_input, (aName.get(),))
             ref_artid=cursor1.lastrowid
         else:
-            ref_artid=artname2idDic[aName]
-        cursor1.execute(art_info_query,(aDate.get(),aPrep.get(),extra_info.get()))
+            ref_artid=artname2idDic[aName.get()]
+        cursor1.execute(art_info_query,(aDate.get(),aPrep.get(),extra_info.get(),ref_artid))
         ref_artinfoid=cursor1.lastrowid
-        art_name_date_2_id_dic[aName.get()+"_"+aDate.get()]=ref_artid
+        art_name_date_2_id_dic[aName.get()+"_"+aDate.get()]=ref_artinfoid
         with open(artConcFileName.get()) as concFile:
             next(concFile)
             for line in concFile:
@@ -99,12 +99,12 @@ def addArt(aName,aDate,aPrep,extra_info,artConcFileName,root):
                     ref_artwellid=cursor1.lastrowid
                 else:
                     ref_artwellid=artwellname2idDic[wellName]
-                cursor1.execute(artwellinfo_query,(conc,ratio))
+                cursor1.execute(artwellinfo_query,(conc,ratio,ref_artwellid))
                 refartwellinfoid=cursor1.lastrowid
                 #for each well add the relation with art
-                cursor1.execute(art_well_relation,(ref_artwellid,ref_artid))
+                cursor1.execute(artwell_has_art,(ref_artwellid,ref_artid))
                 #for each well info add the realtion with art info
-                cursor1.execute(artwellinfo_query,(ref_artwellid,ref_artinfoid))
+                cursor1.execute(art2wellinfo_query,(refartwellinfoid,ref_artinfoid))
         print "added...."
         ttk.Label(root, text="finished adding your entry..").grid(column=3, row=8)
         cnx.commit()
@@ -114,7 +114,7 @@ def addArtaliqot(aliName,aliDate,aliPrep,artName,artDate,extra_info,root):
     cursor1 = cnx.cursor()
     if aliName.get()=="" or aliDate.get()=="" or aliPrep.get()=="" or artName=="" or artDate=="":
         IO_prob("Please fill all the required field with valid input...")
-    elif aliName.get()+"_"+str(aliDate.get()) in artAliqot_name_date_2_id_dic:
+    elif artName.get()+"_"+aliName.get()+"_"+str(aliDate.get()) in artAliqot_name_date_2_id_dic:
         IO_prob(" ART name with same date exist. Dublicate entries are not allowed....")
     elif artName.get()+"_"+str(artDate.get()) not in art_name_date_2_id_dic:
         IO_prob(" ART name and date does not exist in the database, please check or insert ART entries  in the database ....")

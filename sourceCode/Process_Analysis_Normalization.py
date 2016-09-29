@@ -39,7 +39,7 @@ def processAnalysisNormalization(LinkageFile,FolderPath,xmlfile,analy,cut,gen,ns
     ######################################
     ## get R path
     Rpath= GetRPath.RPathname()
-    print Rpath
+    # print Rpath
     # print Rpath
 
 ###################################################################################################
@@ -167,7 +167,7 @@ def processAnalysisNormalization(LinkageFile,FolderPath,xmlfile,analy,cut,gen,ns
         fileRP= Rpath+" --vanilla NormalizationWithaov.R --InputFile="+ InputFileName\
                 +" --OutputFile="+Outputfilename+" --nsrep="+str(nsrep)+" --srep="+str(srep)+" > OutputRP1 2> ErrorRp1" #+" cutoff="+str(cut)+" gene="+str(gen)+\
         # fileRP= '\"'+ fileRP +'\"'
-        print fileRP
+#        print fileRP
         os.system(fileRP)
         print "Finished Normalization.."
         ##################################################################################################
@@ -184,7 +184,7 @@ def processAnalysisNormalization(LinkageFile,FolderPath,xmlfile,analy,cut,gen,ns
                     +" --nsrep="+str(nsrep)+" --srep="+str(srep)+" > OutputRP2 2> ErrorRp2" #+" cutoff="+str(cut)+" gene="+str(gen)+\
 
             # fileRP= '\"'+ fileRP +'\"'
-            print fileRP
+#            print fileRP
             os.system(fileRP)
             ## apply particle count filtration
             if not PCpresent:
