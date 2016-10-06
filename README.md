@@ -30,7 +30,7 @@ MAPPI-DAT project can be downloaded from <a href="http://genesis.ugent.be/uvpubl
 window compatible .exe files can be downloaded from:
 
   * <a href="http://genesis.ugent.be/uvpublicdata/MAPPI-DAT/MAPPI-DAT-MainGui.zip" onclick="trackOutboundLink('usage','download','mappidat','http://genesis.ugent.be/uvpublicdata/MAPPI-DAT/MAPPI-DAT-MainGui.zip'); return false;">MAPPI-DAT-MainGui</a>
-  * <a href="http://genesis.ugent.be/uvpublicdata/MAPPI-DAT/MAPPI-DAT-MainGui.zip" onclick="trackOutboundLink('usage','download','mappidat','http://genesis.ugent.be/uvpublicdata/MAPPI-DAT/MAPPI-DAT-SmallGui.zip'); return false;">MAPPI-DAT-SmallGui</a>
+  * <a href="http://genesis.ugent.be/uvpublicdata/MAPPI-DAT/MAPPI-DAT-SmallGui.zip" onclick="trackOutboundLink('usage','download','mappidat','http://genesis.ugent.be/uvpublicdata/MAPPI-DAT/MAPPI-DAT-SmallGui.zip'); return false;">MAPPI-DAT-SmallGui</a>
 
 **database schema:**
 MySQL schema for the MAPPI-DAT can be downloaded from [here](http://genesis.ugent.be/uvpublicdata/MAPPI-DAT/Mappi_datScript.sql)
