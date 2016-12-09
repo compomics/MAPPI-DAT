@@ -123,38 +123,38 @@ def query_window(Overview,cnx,callback, information_logo):
     e_value=[]
     expgrp_List.bind('<Double-1>', (lambda event: chooseexpgrp(p_value,All_expgrp,All_experiments,e_value,cnx)))
 
-
-
     ####### Experiment Window
-    Gui_looks.CreateLabels(frame1,["Experiments"],col_start=5,f="Helvetica 10 bold",b=bg_toshow)
-    Gui_looks.CreateLabels(frame1,["**Select one experiment by double click"],g="red",row_start=3,col_start=5,b=bg_toshow)
+    Gui_looks.CreateLabels(frame1, ["Experiments"], col_start=5, f="Helvetica 10 bold", b=bg_toshow)
+    Gui_looks.CreateLabels(frame1, ["**Select one experiment by double click"], g="red", row_start=3, col_start=5,
+                           b=bg_toshow)
 
-    exp_List  = Listbox(frame1, height=3,fg="blue")
-    exp_List.grid(column=5, row=2, sticky=(W,E))
-    sbe = Scrollbar(frame1,orient=VERTICAL)
+    exp_List = Listbox(frame1, height=3, fg="blue")
+    exp_List.grid(column=5, row=2, sticky=(W, E))
+    sbe = Scrollbar(frame1, orient=VERTICAL)
     sbe.grid(column=5, row=2, sticky=(E))
     sbe.configure(command=exp_List.yview)
     exp_List.configure(yscrollcommand=sbe.set)
-    exp_List.bind('<Double-1>', (lambda event: DatabaseSearch.chooseexp(cnx,p_value,e_value,All_experiments,exp_List,Overview,bg_toshow,RetestExportPath,
-            checkVar=elist,checkNames=EcheckNames,checkVarPath=Epath,info_logo=information_logo)))
+    exp_List.bind('<Double-1>', (lambda event: DatabaseSearch.chooseexp(cnx, p_value, e_value, All_experiments,
+                                exp_List, Overview, bg_toshow, RetestExportPath,checkVar=elist, checkNames=EcheckNames,
+                                checkVarPath=Epath,info_logo=information_logo)))
 
     ######## Export Window
-    Eprey,Ebait,Emolecule,Esdfound,Esdnotfound,Ecfound,Ecnotfound,Enafound,Enanotfound,Easpecfound,Easpecnotfound,ErawData,\
-    EcytoscapeFile=BooleanVar(),BooleanVar(),BooleanVar(),BooleanVar(),BooleanVar(),BooleanVar(),BooleanVar(),BooleanVar(),\
-                   BooleanVar(),BooleanVar(),BooleanVar(),BooleanVar(),BooleanVar()
+    Eprey, Ebait, Emolecule, Esdfound, Esdnotfound, Ecfound, Ecnotfound, Enafound, Enanotfound, Easpecfound, \
+    Easpecnotfound, ErawData, EcytoscapeFile, EXMLFile = BooleanVar(), BooleanVar(), \
+    BooleanVar(), BooleanVar(), BooleanVar(), BooleanVar(), BooleanVar(), BooleanVar(), \
+    BooleanVar(), BooleanVar(), BooleanVar(), BooleanVar(), BooleanVar(), BooleanVar()
 
-    elist=[Eprey,Ebait,Emolecule,Esdfound,Esdnotfound,Ecfound,Ecnotfound,Enafound,Enanotfound,Easpecfound,Easpecnotfound,ErawData,EcytoscapeFile]
+    elist = [Eprey, Ebait, Emolecule, Esdfound, Esdnotfound, Ecfound, Ecnotfound, Enafound, Enanotfound,
+             Easpecfound, Easpecnotfound, ErawData, EcytoscapeFile, EXMLFile]
 
-    Folderpath=StringVar()
-    Epath=[Folderpath]
-    EcheckNames="Prey,Bait,Molecule,NewHits Found,NewHits NotFound,A-specifics Found,A-specifics NotFound," \
-                "RawDataFiles,cytoscape compatible File".split(",")
+    Folderpath = StringVar()
+    Epath = [Folderpath]
+    EcheckNames = "Prey,Bait,Molecule,NewHits Found,NewHits NotFound,A-specifics Found,A-specifics NotFound," \
+                  "RawDataFiles,cytoscape compatible File,PSI_MI XML File".split(",")
 
-################ retest window
-    RetestExportPath=StringVar()
+    ################ retest window
+    RetestExportPath = StringVar()
 
     for i in elist:
         i.set(False)
-
-
 

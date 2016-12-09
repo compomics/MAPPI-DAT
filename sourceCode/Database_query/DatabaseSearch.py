@@ -10,6 +10,7 @@ from Gui_support import Gui_looks
 from Plotting_graph import PlottingDist
 from Mysql_queries import MySqlConnection
 from Database_query import Recovering_retestData,Method2ExportData
+from XMLWriter import xmlWriter_ElementTree
 
 
 background = "grey95"
@@ -186,50 +187,51 @@ def chooseexp(cnx,p_value,e_value,All_experiments,exp_List,Overview,bg_toshow,Re
 
     ## get count
         NotFound=[]
-        # NotFound=[len(sd_nf)]
-        # NotFound.append(len(control_nf))
         NotFound.append(len(nafinal_nf))
         NotFound.append(len(aspec_nf))
         Gui_looks.create_button(frame3,NotFound,row=False,row_start=5,col_start=2,f="Helvetica 10",g="dark green",b=background,command_input=[NFna,NFaspec])
-    ## get all the raw data
-        # AllPlateRawData=[]
-        # AllPlates = Project_Query.Select_values(Project_Query.platesNames, cnx, arg=True,argument=(expvalue, e_value[-1], p_value[-1]))
-        # for eachPlate in AllPlates:
-        #     AllPlateRawData+=Project_Query.Select_values(Project_Query.rawDataInfo, cnx, arg=True,argument=(expvalue, e_value[-1], p_value[-1],eachPlate[0]))
-        # ExportList["RawDataFiles"]=AllPlateRawData
-
-        ##............................................................................................................................
 
 ## check which of the arguments are selected and than print the related file
         def export():
             for varindex in range(len(checkVar)):
                 if checkVar[varindex].get():
                     if checkNames[varindex] in ["RawDataFiles"]:
-                        Method2ExportData.exportProcessedData(expvalue, e_value[-1], p_value[-1],cnx,checkVarPath[0].get())
+                        Method2ExportData.exportProcessedData(expvalue, e_value[-1], p_value[-1], cnx,
+                                                              checkVarPath[0].get())
                     else:
-                        exportfile=open(checkVarPath[0].get()+"/"+checkNames[varindex]+".txt","w")
-                        exportfile.write(ExportListHeader[checkNames[varindex]])
-    #                    print checkVarPath[varindex].get()
-                        if checkNames[varindex] in ["Bait","Molecule"]:
-                            exporline=[]
+                        if checkNames[varindex] not in ["PSI_MI XML File"]:  # dont open file for XML file
+                            exportfile = open(checkVarPath[0].get() + "/" + checkNames[varindex] + ".txt", "w")
+                            exportfile.write(ExportListHeader[checkNames[varindex]])
+                        else:
+                            exportfilePath = checkVarPath[0].get() + "/" + checkNames[varindex] + ".xml"
+                            #                    print checkVarPath[varindex].get()
+                        if checkNames[varindex] in ["Bait", "Molecule"]:
+                            exporline = []
                             for lines in ExportList[checkNames[varindex]]:
-                                    exporline.append(lines+"\t")
+                                exporline.append(lines + "\t")
                             exporline.append("\n")
-        #                        print exporline
+                            #                        print exporline
                             exportfile.writelines(exporline)
+                            exportfile.close()
                         elif checkNames[varindex] in ["cytoscape compatible File"]:
                             for lineList in ExportList["NewHits Found"]:
-                                exporline="\t".join([baitName,lineList[2],lineList[0],lineList[1]]+lineList[3:])+"\n"
+                                exporline = "\t".join(
+                                    [baitName, lineList[2], lineList[0], lineList[1]] + lineList[3:]) + "\n"
                                 exportfile.write(exporline)
+                            exportfile.close()
+                        elif checkNames[varindex] in ["PSI_MI XML File"]:
+                            xmlWriter_ElementTree.makePSIMIXMLFile(ExportList["NewHits Found"], exportfilePath,
+                                                                   baitName)
                         else:
-                        #                        print(ExportList[checkNames[varindex]])
+                            #                        print(ExportList[checkNames[varindex]])
                             for lines in ExportList[checkNames[varindex]]:
-                                exporline="\t".join(lines)+"\n"
+                                exporline = "\t".join(lines) + "\n"
                                 exportfile.write(exporline)
-                        exportfile.close()
-                    print "finised writing ",checkNames[varindex],"in the file ",checkVarPath[0].get()+"/"+checkNames[varindex]+".txt"
+                            exportfile.close()
+                    print "finised writing ", checkNames[varindex], "in the file ", checkVarPath[0].get() + "/" + \
+                                                                                    checkNames[varindex] + ".txt"
 
-## create the export buttons
+                ## create the export buttons
         ### trial
         def checkwork():
             print "under construction"
@@ -244,9 +246,13 @@ def chooseexp(cnx,p_value,e_value,All_experiments,exp_List,Overview,bg_toshow,Re
                 Checkbutton(root, text=checkNames[ind], variable=checkVar[ind], onvalue=True,font = "Helvetica 10").grid(column=1, row=1+ind,sticky="W") ## this create check buttons
             Entry(root, width=12, textvariable=checkVarPath[0]).grid(column=2, row=14,columnspan=10,sticky=(W, E))## this create the entry for the path
 
-            Gui_looks.CreateLabels(root,[ExportInformation.prey,ExportInformation.bait,ExportInformation.molecule,
-                    ExportInformation.NewHitsFound,ExportInformation.NewHitNotFound,ExportInformation.AspecificFound,
-                    ExportInformation.AspecificNotFound,ExportInformation.RawDataInfo,ExportInformation.CytoscapeInputFile],col_start=2,s=(W))
+
+            Gui_looks.CreateLabels(root, [ExportInformation.prey, ExportInformation.bait, ExportInformation.molecule,
+                              ExportInformation.NewHitsFound, ExportInformation.NewHitNotFound,
+                              ExportInformation.AspecificFound,
+                              ExportInformation.AspecificNotFound, ExportInformation.RawDataInfo,
+                              ExportInformation.CytoscapeInputFile,
+                              ExportInformation.XMLFile], col_start=2, s=(W))
             Gui_looks.create_button(root,["Browse"],col_start=13,command_input=[lambda:checkVarPath[0].set(askdirectory())],s=(E,W),row_start=14)
             Gui_looks.CreateLabels(root,["*Enter the folder location where to save all selected files"],row_start=15,col_start=2,g="red")
             Button(root, text="Export", command=export,fg="red",font = "Helvetica 10",relief=RAISED).grid(column=3, row=16, sticky=W)
