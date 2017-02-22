@@ -56,9 +56,9 @@ Sample data can be downloaded from [here](http://genesis.ugent.be/uvpublicdata/M
 
 MAPPI-DAT project is supported by:
 
-| Compomics | CRL | VIB | Ghent University|
+| Compomics | VIB | Ghent University|
 |:--:|:--:|:--:|
-| [![compomics](http://genesis.ugent.be/uvpublicdata/image/compomics.png)](http://www.compomics.com) |[![crl](http://genesis.ugent.be/uvpublicdata/image/crlLogo.png)](http://www.crl-mappit.be)  | [![vib](http://genesis.ugent.be/uvpublicdata/image/newVIBLogo.png)](http://www.vib.be) | [![ugent](http://genesis.ugent.be/uvpublicdata/image/newUgent.png)](http://www.ugent.be/en) |
+| [![compomics](http://genesis.ugent.be/uvpublicdata/image/compomics.png)](http://www.compomics.com)  | [![vib](http://genesis.ugent.be/uvpublicdata/image/newVIBLogo.png)](http://www.vib.be) | [![ugent](http://genesis.ugent.be/uvpublicdata/image/ugent.png)](http://www.ugent.be/en) |
 
 [Go to top of the page](#mappi-dat)
 
