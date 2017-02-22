@@ -18,7 +18,7 @@
 *MAPPI-DAT* application include graphical user interface. The analysis system is comprising of three steps: normalization, analysis and post filtration. The management system contains a back-end relational database and retrieval system, allowing user to store and download different projects using MAPPI-DAT interface with three main divisions for analysis, database submission and retrieval.
 
 ### Citation
-*Mappi-dat* is described in “*MAPPI-DAT: data management and analysis for protein-protein interaction data from the high-throughput MAPPIT cell microarray platform*” (Surya Gupta, Veronic De Puysseleyr, José Van der Heyden, Davy Maddelein, Irma Lemmens, Sam Lievens, Sven Degroeve, Jan Tavernier, and Lennart Martens., PMID: [28104627](http://www.ncbi.nlm.nih.gov/pubmed/28104627))
+“*MAPPI-DAT: data management and analysis for protein-protein interaction data from the high-throughput MAPPIT cell microarray platform*” (Surya Gupta, Veronic De Puysseleyr, José Van der Heyden, Davy Maddelein, Irma Lemmens, Sam Lievens, Sven Degroeve, Jan Tavernier, and Lennart Martens., PMID: [28104627](http://www.ncbi.nlm.nih.gov/pubmed/28104627))
 
 
 [Go to top of the page](#mappi-dat)
