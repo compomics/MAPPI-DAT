@@ -12,8 +12,9 @@ background = "grey95"
 #################################### DATABASE WINDOW   ###################################
 ###################################################################################################
 
-def mappit_dbwindow(databasedo,projname,projReason,expgrpname,baitname,expname,expReason,Scanningdate,mbubaitcode,baitVectorType,stimulusType,
-                    stimulusconc,protocolType,treatmentType,treatementConc,Treatementdate,treatment_starttime,treatment_endtime,txt,file,treatment,BaitTransfectDate):
+def mappit_dbwindow(databasedo,projname,projReason,expgrpname,baitname,expname,expReason,Scanningdate,mbubaitcode,
+                    baitVectorType,stimulusType,stimulusconc,protocolType,treatmentType,treatementConc,Treatementdate,
+                    treatment_starttime,treatment_endtime,txt,file,treatment,BaitTransfectDate):
 
     ## define the fields with default alues
     def FillAllField():
@@ -38,11 +39,12 @@ def mappit_dbwindow(databasedo,projname,projReason,expgrpname,baitname,expname,e
         mixinfo_update.append("Mixture.txt")
         # mix_info.set('/'.join(mixinfo_update))
         if treatment:
-            treatmentType.set("")
+            treatmentType.set("EPO")
             treatementConc.set(0.002)
             Treatementdate.set(today_date)
             treatment_starttime.set(start_time)
             treatment_endtime.set(end_time)
+    #####################################################################
 
     if databasedo.get():
         database = Toplevel(bg=background)

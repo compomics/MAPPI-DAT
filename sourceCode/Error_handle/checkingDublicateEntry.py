@@ -4,7 +4,7 @@ __author__ = 'surya'
 
 import os
 
-from Mysql_queries import MySqlConnection,GetExistingDataFromDatabase, mysql_smallMethods
+from Mysql_queries import GetExistingDataFromDatabase
 from Error_handle import ErrorHandling
 
 def checkExistingInfo(plate2subfolder,cnx):

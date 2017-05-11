@@ -19,7 +19,8 @@ stimulusconc,protocolType,fusioncpd,fusioncpdConc,moleculeExtraInfo,txt,file,Bai
         mappit_window.mappit_dbwindow(databasedo,projname,projReason,expgrpname,baitname,expname,expReason,ScanningDate,mbubaitcode,baitVectorType,stimulusType,
 stimulusconc,protocolType,treatmentType,treatementConc,Treatementdate,treatment_starttime,treatment_endtime,txt,file,treatment,BaitTransfectDate)
     elif kiss:
-        kiss_window.kiss_dbwindow()
+        kiss_window.kiss_dbwindow(databasedo,projname,projReason,expgrpname,baitname,expname,expReason,ScanningDate,mbubaitcode,baitVectorType,stimulusType,
+stimulusconc,protocolType,treatmentType,treatementConc,Treatementdate,treatment_starttime,treatment_endtime,txt,file,treatment,BaitTransfectDate)
 
     root.destroy()
 

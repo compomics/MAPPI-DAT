@@ -4,6 +4,7 @@ import os
 
 
 def exportProcessedData(exp,egroup,project,cnx,Mainpath):
+    print "preparing your raw data.."
     #first create a folder
     path=Mainpath+"/MAPPI_DAT_RawData"
     if not os.path.isdir(path):
@@ -23,9 +24,9 @@ def exportProcessedData(exp,egroup,project,cnx,Mainpath):
     # AllPlates = Project_Query.Select_values(Project_Query.platesNames, cnx, arg=True,
     #                                         argument=(exp, egroup, project))
     # for eachPlate in AllPlates:
-    AllPlateRawData = Project_Query.Select_values(Project_Query.rawDataInfo, cnx, arg=True,
+    AllPlateRawData = Project_Query.Select_values(Project_Query.getAllRawData, cnx, arg=True,
                                                        argument=(exp, egroup, project))
-
+    print "finished getting data from database...."
     id = 1
     for lineList in AllPlateRawData:
         col1 = "_".join(lineList[0:5] + lineList[12:14])
@@ -51,4 +52,6 @@ def exportProcessedData(exp,egroup,project,cnx,Mainpath):
         exporline="\t".join([lineList[0],lineList[2].split("-")[0],lineList[2],TFilePath+"/"+lineList[1]+".txt"])+"\n"
         linkageFile.write(exporline)
     linkageFile.close()
+    print "Done!!"
+
 

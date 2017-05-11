@@ -1,12 +1,13 @@
 __author__ = 'surya'
 
+from Mysql_queries import MySqlConnection
 ## how many relicate are found in the particular experiment
 
 def replicateNumber(exp,epgrp,project,cnx):
-    import mysql.connector
+    if not cnx.is_connected():
+        cnx = MySqlConnection.connectSql()
     count=0
     rep_list=[]
-#    rep_list=["experiment\tNS\tS"]
     cursor1 = cnx.cursor()
     cursor1.execute("""select c.NSreplicate+c.Sreplicate,c.NSreplicate, c.Sreplicate from exp_condition c
                        inner join experiments e on e.ref_conditionid=c.condition_id
@@ -22,10 +23,9 @@ def replicateNumber(exp,epgrp,project,cnx):
 
 ## how many possible hits are found including the controls.
 def HowManyPositivesIncluding(exp,epgrp,project,cnx):
-    import mysql.connector
-    count=0
     rep_list=[]
-#    rep_list=["Total\tControls\tSDPositives\tNA"]
+    if not cnx.is_connected():
+        cnx = MySqlConnection.connectSql()
     cursor1 = cnx.cursor()
     cursor1.execute("""select (select count(*) from possiblehit h
                         inner join interactors i on i.idInteractors=h.ref_interactorid
@@ -62,8 +62,9 @@ def HowManyPositivesIncluding(exp,epgrp,project,cnx):
 
 #...................................................................................................
 def PositivesFound(exp,epgrp,project,cnx):
-    import mysql.connector
     rep_list=[]
+    if not cnx.is_connected():
+        cnx = MySqlConnection.connectSql()
     cursor1 = cnx.cursor()
     cursor1.execute("""select count(*) from possiblehit h
                         inner join analysis_parameters a on a.analysis_id=h.ref_analysis_parameterid

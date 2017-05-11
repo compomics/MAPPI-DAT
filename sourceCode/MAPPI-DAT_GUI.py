@@ -3,8 +3,7 @@ __author__ = 'surya'
 
 ## importing module
 from Tkinter import *
-from tkFileDialog import askopenfilename
-from tkFileDialog import askdirectory
+from tkFileDialog import askopenfilename,askdirectory
 import ttk
 from Tkinter import PhotoImage
 import os
@@ -17,9 +16,8 @@ from Error_handle import ErrorHandling, checkingDublicateEntry
 from Database_query import database_queryWindow
 from Database_input import ReTestDatabaseInput
 from datetime import date
-from Retest import preprocessing
+from Retest import preprocessing_analyzingTreatmentData, MerginAndProcessing,RetestAnalysisForKissData
 # import Art_Window_Method
-
 
 background="grey95" # defining background color of GUI
 
@@ -32,12 +30,18 @@ path=os.getcwd()
 ## call Back Function
 def callback():
     if askyesno('Verify', 'Really quit?'):
+        if cnx.is_connected():
+            # cnx.close()
+            cnx.close()
         root.destroy()
+
 
 ## to set the default options
 def default():
     cutoff.set(0.05)
     geneNum.set(0)
+    # nslist.set("W1,W3,W1,W3")
+    # slist.set("W2,W4,W2,W4")
     nslist.set("W1")
     slist.set("W2,W3,W4")
     mainfile=file.get()
@@ -65,9 +69,11 @@ def files():
             run=False
     else:
         if os.path.isfile(pfile.get()) and os.path.isfile(file.get()) and os.path.isdir(link.get()) and cutoff.get()!="" \
-                and geneNum.get()!="" and nslist.get()!="" and slist.get()!="" and quartfilt.get() !="" and allprocess.get()!="":
+                and geneNum.get()!="" and nslist.get()!="" and slist.get()!="" and quartfilt.get() !="" and allprocess.get()!=""\
+                and (os.path.splitext(file.get())[1]).upper()==".XML":
             run=True
         else:
+            print (os.path.splitext(file.get())[1]).capitalize()
             ErrorHandling.IO_prob("Please fill all the required field with valid input...")
             run=False
     if run:
@@ -75,7 +81,7 @@ def files():
             path,Positive_count,pplot,Tplate2Path,bait2PlateList,plate2subfolder,AspecificDic,linkageDic,plate_tfileDic=\
                 Process_Analysis_Normalization.processAnalysisNormalization(pfile.get(),link.get(),file.get(),analysis.get(),
                 float(cutoff.get()),float(geneNum.get()),nslist.get(),slist.get(),quartfilt.get(),allprocess.get(),aspecifics.get(),
-                aspecificpresent.get(),PCpresent.get(),PCthreshold.get(),ReProcessing.get(),cnx)
+                aspecificpresent.get(),PCpresent.get(),PCthreshold.get(),ReProcessing.get())
 
     ## if database are checked and than initiate database entry as well
             if databasedo.get():
@@ -234,11 +240,28 @@ exportStatistic=StringVar()
 
 def retest_analysis():
     print "started analysis"
-    retest_outputFile=preprocessing.mergeFiles(controlfile.get(),primaryscreenfile.get(),primary2retestlink.get(),retestfolderpath.get(),replicateArrangement.get(),outputfile="ReTestOutputFile.txt")
-    print "done with analysis!"
+    if TreatmentData.get():
+        print "analysis for treatment data started..."
+        ## first merge the bait and withoutbait data
+        #and then run the normal analysis for both treatment and non-treatment dataset
+        retest_outputList=preprocessing_analyzingTreatmentData.mergeFilesBaitNdWotBaitFiles(controlfile.get(),primaryscreenfile.get(),
+            primary2retestlink.get(),retestfolderpath.get(),replicateArrangement.get(),
+            "Retest_OutputWotTreatment.txt","Retest_OutputWithTreatment.txt","Retest_OutputMerged.txt",float(selectiveThreshold.get()))
+        print "done with analysis!"
+    elif kissRetest.get():
+        retest_outputList =RetestAnalysisForKissData.mergeFilesForKissData(controlfile.get(),primaryscreenfile.get(),primary2retestlink.get(),
+                                                         retestfolderpath.get(),replicateArrangement.get(),
+                                                         float(selectiveThreshold.get()),outputfile="ReTestOutputFile.txt")
+    else:
+        retest_outputList=MerginAndProcessing.mergeFiles(controlfile.get(),primaryscreenfile.get(),primary2retestlink.get(),
+                                                         retestfolderpath.get(),replicateArrangement.get(),
+                                                         float(selectiveThreshold.get()),outputfile="ReTestOutputFile.txt")
+        print "done with analysis!"
+    ## for the database submission
     if retestdatabasewindow.get():
-        ReTestDatabaseInput.reTestInput(r_projname.get(),r_expgroup.get(),r_experiment.get(),cnx,retest_reason.get(),retest_outputFile,dnaControlFile.get(),dnaFile.get(),
-                                        replicateArrangement.get(),retest_name.get(),today_date,retest_date.get(),doneby.get())
+        ReTestDatabaseInput.reTestInput(r_projname.get(),r_expgroup.get(),r_experiment.get(),cnx,retest_reason.get(),retest_outputList,
+                                        dnaControlFile.get(),dnaFile.get(),replicateArrangement.get(),retest_name.get(),
+                                        today_date,retest_date.get(),doneby.get(),TreatmentData.get(),selectiveThreshold.get(),kissRetest.get())
 
 def retestdeafault():
     mainfile=primaryscreenfile.get()
@@ -249,14 +272,25 @@ def retestdeafault():
     control_update.append("controlFormatFile.txt")
     controlfile.set('/'.join(control_update))
     retestfolderpath.set('/'.join(mainfile.split("/")[:-1]))
-    replicateArrangement.set("NS,NS,NS,S,S,S,NSB+,NSB+,NSB+,SB+,SB+,SB+")
+    if TreatmentData.get():
+        replicateArrangement.set("X,NS,NS,NS,S,S,S,ST,ST,ST,X,X")
+    elif kissRetest.get():
+        replicateArrangement.set(",".join(["B-"]*6+["B+"]*6))
+    else:
+        replicateArrangement.set("NS,NS,NS,S,S,S,NSB+,NSB+,NSB+,SB+,SB+,SB+") # treatment="N,NS,NS,NS,S,S,S,ST,ST,ST,N,N"
+    selectiveThreshold.set(9)
 
 Gui_looks.CreateLabels(Retest,["Retest Filtration & Analysis"],row_start=0,b=background ,f=("Helvetica", 15, "bold"),col_start=3,s=(W))
 
 # variables
-primaryscreenfile,primary2retestlink,controlfile,retestfolderpath,replicateArrangement=StringVar(),StringVar(),StringVar(),StringVar(),StringVar()
+primaryscreenfile,primary2retestlink,controlfile,retestfolderpath,\
+    replicateArrangement,selectiveThreshold=StringVar(),StringVar(),StringVar(),StringVar(),StringVar(),StringVar()
 retestdatabasewindow=BooleanVar()
 retestdatabasewindow.set(False)
+TreatmentData=BooleanVar()
+TreatmentData.set(False)
+kissRetest=BooleanVar()
+kissRetest.set(False)
 
 # type of variables
 primaryscreenfile_entry = Entry(Retest, width=12, textvariable=primaryscreenfile)
@@ -264,6 +298,12 @@ primary2retestlink_entry = Entry(Retest, width=12, textvariable=primary2retestli
 controlfile_entry = Entry(Retest, width=12, textvariable=controlfile)
 retestfolderpath_entry = Entry(Retest, width=12, textvariable=retestfolderpath)
 replicateArrangement_entry = Entry(Retest, width=12, textvariable=replicateArrangement)
+selectiveThreshold_entry = Entry(Retest, textvariable=selectiveThreshold)
+## check box for treatment set
+treatment_entry = Checkbutton(Retest, text="Treatment", variable=TreatmentData, onvalue=True,bg=background ,font = "Helvetica 10",
+                command=lambda: GuiCommands.disable_checkbox(kissRetest_entry,host_box=TreatmentData.get()))
+kissRetest_entry = Checkbutton(Retest, text="Kiss experiment", variable=kissRetest, onvalue=True,bg=background ,font = "Helvetica 10",
+                command=lambda: GuiCommands.disable_checkbox(treatment_entry,host_box=kissRetest.get()))
 
 #position of variables
 primaryscreenfile_entry.grid(column=2, row=1,columnspan=4, sticky=(W, E))
@@ -271,10 +311,14 @@ primary2retestlink_entry.grid(column=2, row=2,columnspan=4, sticky=(W, E))
 controlfile_entry.grid(column=2, row=3,columnspan=4, sticky=(W, E))
 retestfolderpath_entry.grid(column=2, row=4,columnspan=4, sticky=(W, E))
 replicateArrangement_entry.grid(column=2, row=5,columnspan=4, sticky=(W, E))
-
+selectiveThreshold_entry.grid(column=2, row=6, sticky=(W, E))
+treatment_entry.grid(column=3,row=6, sticky=(W, E))
+kissRetest_entry.grid(column=4,row=6, sticky=(W, E))
 # create labels for the entry windows
 
-Gui_looks.CreateLabels(Retest,["PrimaryScreen Analysis File*","Connection File*","Control Format File*", "Folder Link*","Arrangement of Replicates*"],b=background ,f="Helvetica 10",s=(W))
+Gui_looks.CreateLabels(Retest,["PrimaryScreen Analysis File*","Connection File*","Control Format File*",
+                               "Folder Link*","Arrangement of Replicates*","Fold Induction Threshold*"],b=background ,f="Helvetica 10",s=(W))
+
 
 ## browse buttons
 Button(Retest,image=txt,command=(lambda: primaryscreenfile.set(askopenfilename())),relief=RAISED,bg="black").grid(column=6,row=1,sticky=W)
@@ -283,9 +327,11 @@ Button(Retest,image=txt,command=(lambda: controlfile.set(askopenfilename())),rel
 Button(Retest,image=folder,command=(lambda:retestfolderpath.set(askdirectory())),relief=RAISED,bg="black").grid(column=6,row=4,sticky=W)
 
 ## extra buttons
-Button(Retest, text="Fill Out", command=retestdeafault,fg="Blue",relief=RAISED,font = "Helvetica 10").grid(column=4, row=6, sticky=E)
+Button(Retest, text="Fill Out", command=retestdeafault,fg="Blue",relief=RAISED,font = "Helvetica 10").grid(column=4, row=7, sticky=E)
 
-Button(Retest, text="Calculate", command=retest_analysis,fg="dark green",relief=RAISED,font = "Helvetica 10").grid(column=3, row=6, sticky=(E))
+Button(Retest, text="Calculate", command=retest_analysis,fg="dark green",relief=RAISED,font = "Helvetica 10").grid(column=3, row=7, sticky=(E))
+Button(Retest, text="Quit", command=callback,fg="red",font = "Helvetica 10",relief=RAISED).grid(column=5, row=7, sticky=E)
+
 
 ## database window submission
 if cnx!="":
@@ -293,13 +339,7 @@ if cnx!="":
                                    command=lambda:(re_test_window.retest_dbWindow(retestdatabasewindow,r_projname,r_expgroup,r_experiment,dnaFile,
                                                 dnaControlFile,retest_reason,txt,retestfolderpath.get(),retest_name,retest_date,doneby)),
                                    font = "Helvetica 10")
-    retestdatabasewindow_entry.grid(column=1,row=6, sticky=(W, E))
-
-
-
-
-
-
+    retestdatabasewindow_entry.grid(column=1,row=7, sticky=(W, E))
 
 
 
@@ -326,19 +366,18 @@ retest_name,r_projname,r_expgroup,r_experiment,dnaFile,dnaControlFile,retest_rea
 
 
 
-
-
 #################################################################################################
 #################################### DATABASE query WINDOW   ###################################
 ###################################################################################################
-
-if cnx:
-    database_queryWindow.query_window(Overview,cnx,callback, information_logo)
+if cnx!="":
+    if cnx.is_connected():
+        database_queryWindow.query_window(Overview,cnx,callback, information_logo)
 
 
 #################################################################################################
 #################################### End the loop   ###################################
 ###################################################################################################
-#cnx.close()
+# if cnx.is_connected():
+#     cnx.cmd_quit()
 root.mainloop()
 

@@ -1,6 +1,6 @@
 __author__ = 'surya'
 
-import MySqlConnection
+from Mysql_queries import MySqlConnection
 ## mini query
 ####################### PROJECT ################################
 projectInfo="""select p.p_name,(select count(g.e_name) from experiment_group g
@@ -134,7 +134,7 @@ TFileOut=""" select distinct r.a_name,aw.w_name,aw.well1id,aw.well2id,aw.well3id
 
 
 ## get raw data for each plate
-rawDataInfo=""" select aw.w_name,aw.well1id,aw.well2id,aw.well3id,aw.well4id,i.inttype,p.p_name,p.entrenz_name,p.plate_nr,pl.p_name,w.w_name,s.block,s.row,s.col,q.pc,q.meanArea,q.grayValMean,q.meanGrayValMean,q.MeanIntInt,q.area_fraction,q.IntInt from project pr
+rawDataInfo=""" select distinct aw.w_name,aw.well1id,aw.well2id,aw.well3id,aw.well4id,i.inttype,p.p_name,p.entrenz_name,p.plate_nr,pl.p_name,w.w_name,s.block,s.row,s.col,q.pc,q.meanArea,q.grayValMean,q.meanGrayValMean,q.MeanIntInt,q.area_fraction,q.IntInt from project pr
                 inner join experiment_group g on pr.project_id = g.ref_projid
                 inner join experiments e on e.ref_expgrpid=g.expgrp_id
                 inner join interactors i on i.ref_expgrpid=g.expgrp_id
@@ -145,6 +145,21 @@ rawDataInfo=""" select aw.w_name,aw.well1id,aw.well2id,aw.well3id,aw.well4id,i.i
                 inner join quantificationval q on q.ref_spotid=s.spot_id
                 inner join well w on w.well_id=s.ref_wellid
                 inner join art_well aw on aw.well_id=p.ref_artwellid
+                where e.e_name=  %s and g.e_name= %s and pr.p_name= %s"""
+
+getAllRawData="""select distinct aw.w_name,aw.well1id,aw.well2id,aw.well3id,aw.well4id,i.inttype,p.p_name,p.entrenz_name,
+				p.plate_nr,pl.p_name,w.w_name,s.block,s.row,s.col,q.pc,q.meanArea,q.grayValMean,q.meanGrayValMean,
+				q.MeanIntInt,q.area_fraction,q.IntInt
+                from quantificationval q
+                inner join spots s on s.spot_id=q.ref_spotid
+                inner join well w on w.well_id=s.ref_wellid
+                inner join interactors i on i.IdInteractors=s.ref_interactorid
+                inner join plates pl on pl.plate_id=w.ref_platid
+                inner join prey p on p.prey_id=i.ref_preyid
+                inner join art_well aw on aw.well_id=p.ref_artwellid
+                inner join experiment_group g on i.ref_expgrpid=g.expgrp_id
+                inner join experiments e on e.ref_expgrpid=g.expgrp_id
+                inner join project pr on pr.project_id=g.ref_projid
                 where e.e_name=  %s and g.e_name= %s and pr.p_name= %s"""
 
 
@@ -182,14 +197,14 @@ Parameter_Analysis=""" select a.q_val_threshold,a.particle_count_filtration,a.qu
                       inner join project pr on pr.project_id = g.ref_projid
                       where e.e_name=  %s and g.e_name= %s and pr.p_name= %s"""
 
-GetAllRetest=       """ select r.r_name,r.reason,r.submission_date,r.retest_date,r.done_by from retest r
+GetAllRetest=       """ select r.r_name,r.reason,r.submission_date,r.retest_date,r.done_by,r.treatment,r.threshold,r.kiss from retest r
                         inner join experiments_has_retest c on c.ref_retestid=r.restest_id
                         inner join experiments e on e.experiment_id=c.ref_expid
                         inner join experiment_group g on g.expgrp_id=e.ref_expgrpid
                         inner join project p on p.project_id=g.ref_projid
                         where p.p_name=%s and g.e_name=%s and e.e_name=%s"""
 
-GetAllRetestData= """select f.file_name,i.row,i.col,i.well_type,i.intensity, y.p_name,y.entrenz_name,o.FI_baitNull,o.FI_preyNull,o.tag,o.type from prey y
+GetAllRetestData_o= """select f.file_name,i.wellName,i.well_type,i.intensity, y.p_name,y.entrenz_name,o.FC_baitNull,o.FC_preyNull,o.tag,o.type from prey y
                         inner join retest_analysis_output o on o.ref_preyid=y.prey_id
                         inner join retest_eachcell_intensity i on i.ref_retest_analyid = o.pos_id
                         inner join retest_files f on f.file_id=i.ref_fileid
@@ -199,6 +214,52 @@ GetAllRetestData= """select f.file_name,i.row,i.col,i.well_type,i.intensity, y.p
                         inner join experiment_group g on g.expgrp_id=e.ref_expgrpid
                         inner join project p on p.project_id=g.ref_projid
                         where p.p_name=%s and g.e_name=%s and e.e_name=%s and r.r_name=%s"""
+
+GetAllRetestDataT="""select f.file_name,p.p_name,p.entrenz_name,i.well_type,i.intensity,a.FC_baitNull,a.FC_preyNull,a.FC_baitNullT,a.FC_preyNullT,a.tag,a.tagT,i.wellName,a.type from retest_analysis_output a
+                    inner join prey p on p.prey_id=a.ref_preyid
+                    inner join retest_eachcell_intensity i on i.ref_retest_analyid=a.pos_id
+                    inner join retest_files f on f.file_id=i.ref_fileid
+                    inner join retest r on r.restest_id=f.ref_retest
+                    inner join experiments_has_retest c on c.ref_retestid=r.restest_id
+                    inner join experiments e on e.experiment_id=c.ref_expid
+                    inner join experiment_group g on g.expgrp_id=e.ref_expgrpid
+                    inner join project j on j.project_id=g.ref_projid
+                    where j.p_name=%s and g.e_name=%s and e.e_name=%s and r.r_name=%s"""
+
+
+GetAllRetestDataConT="""select f.file_name,t.uniq_name,t.full_name,i.well_type,i.intensity,a.FC_baitNull,a.FC_preyNull,a.FC_baitNullT,a.FC_preyNullT,a.tag,a.tagT,i.wellName,a.type from retest_analysis_output a
+                    inner join retest_controls t on t.control_id=a.ref_conid
+                    inner join retest_eachcell_intensity i on i.ref_retest_analyid=a.pos_id
+                    inner join retest_files f on f.file_id=i.ref_fileid
+                    inner join retest r on r.restest_id=f.ref_retest
+                    inner join experiments_has_retest c on c.ref_retestid=r.restest_id
+                    inner join experiments e on e.experiment_id=c.ref_expid
+                    inner join experiment_group g on g.expgrp_id=e.ref_expgrpid
+                    inner join project j on j.project_id=g.ref_projid
+                    where j.p_name=%s and g.e_name=%s and e.e_name=%s and r.r_name=%s"""
+
+GetAllRetestData="""select f.file_name,p.p_name,p.entrenz_name,i.well_type,i.intensity,a.FC_baitNull,a.FC_preyNull,a.tag,i.wellName,a.type from retest_analysis_output a
+                    inner join prey p on p.prey_id=a.ref_preyid
+                    inner join retest_eachcell_intensity i on i.ref_retest_analyid=a.pos_id
+                    inner join retest_files f on f.file_id=i.ref_fileid
+                    inner join retest r on r.restest_id=f.ref_retest
+                    inner join experiments_has_retest c on c.ref_retestid=r.restest_id
+                    inner join experiments e on e.experiment_id=c.ref_expid
+                    inner join experiment_group g on g.expgrp_id=e.ref_expgrpid
+                    inner join project j on j.project_id=g.ref_projid
+                    where j.p_name=%s and g.e_name=%s and e.e_name=%s and r.r_name=%s"""
+
+GetAllRetestDataCon="""select f.file_name,t.uniq_name,t.full_name,i.well_type,i.intensity,a.FC_baitNull,a.FC_preyNull,a.tag,i.wellName,a.type from retest_analysis_output a
+                    inner join retest_controls t on t.control_id=a.ref_conid
+                    inner join retest_eachcell_intensity i on i.ref_retest_analyid=a.pos_id
+                    inner join retest_files f on f.file_id=i.ref_fileid
+                    inner join retest r on r.restest_id=f.ref_retest
+                    inner join experiments_has_retest c on c.ref_retestid=r.restest_id
+                    inner join experiments e on e.experiment_id=c.ref_expid
+                    inner join experiment_group g on g.expgrp_id=e.ref_expgrpid
+                    inner join project j on j.project_id=g.ref_projid
+                    where j.p_name=%s and g.e_name=%s and e.e_name=%s and r.r_name=%s"""
+
 
 checkTreatment   = """ """
 

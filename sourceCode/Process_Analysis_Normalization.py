@@ -3,7 +3,7 @@ __author__ = 'surya'
 import os
 import subprocess
 from datetime import datetime
-
+from Error_handle import ErrorHandling
 from Filter_Analysis import Processing, CalculatingPositives, MergingAndFinalFiltration
 from GeneralMethods import GetRPath
 from Plotting_graph import PlottingDist
@@ -27,7 +27,7 @@ and the name of the file should be
 ## handling linkage file
 
 def processAnalysisNormalization(LinkageFile,FolderPath,xmlfile,analy,cut,gen,ns_list,s_list,QuartFil,allprocessedFile,
-                            apecific_file,aspecificPresent,PCpresent,PCthreshold,Reprocessing,cnx):
+                            apecific_file,aspecificPresent,PCpresent,PCthreshold,Reprocessing):
     print "Started with Processing................"
     start= datetime.now()
     print start
@@ -90,11 +90,13 @@ def processAnalysisNormalization(LinkageFile,FolderPath,xmlfile,analy,cut,gen,ns
         pplot=[]
         work = []
         ln=[]
+        count=0
         for line in open(xmlfile):
             sp = line.split()
             if sp[0] == "<Worksheet":
                 if len(work) != 0:
                     wrt.writelines(ln)
+                    count+=1
                     wrt.close()
                     TfileName=os.path.basename(linkageDic[plate2subfolder[platename]][1])
                     if TfileName not in Pannotation:
@@ -113,10 +115,14 @@ def processAnalysisNormalization(LinkageFile,FolderPath,xmlfile,analy,cut,gen,ns
             elif sp[0] == "<Row>":
                     ln.append("\n")
                     wrt.writelines(ln)
+                    count+=1
                     ln = []
             elif sp[0] == "<Data" or sp[0]== "<Cell><Data":
                     ln.append(sp[1].split(">")[1].split("<")[0])
                     ln.append("\t")
+        # if count==0:
+        #     ErrorHandling.IO_prob("This is not a valid file.. please enter XML file only..")
+        #
         wrt.writelines(ln)
         wrt.close()
 
@@ -204,7 +210,7 @@ def processAnalysisNormalization(LinkageFile,FolderPath,xmlfile,analy,cut,gen,ns
             MergingAndFinalFiltration.CreateSoftwareInputFile(File2BMerge)
             ###################################################################################################
 
-    print "Done !! "
+    print " Analysis Done !! "
     end1=datetime.now()-start
     print "time taken till now is ", end1
     return (path,Positive_count,pplot,Pannotation,bait2PlateList,plate2subfolder,AspecificDic,linkageDic,plate_tfileDic)

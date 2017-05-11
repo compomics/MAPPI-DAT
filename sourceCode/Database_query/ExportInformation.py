@@ -15,4 +15,3 @@ AspecificNotFound="This will give the list of A-specific protein Not found posit
 RawDataInfo="Provide with all the printed files together for the re-analysis with controls and protein annotations"
 CytoscapeInputFile="This is provide a file with the names of both interactors and also compatible with cytoscape"
 XMLFile="Export PSI-MI XML format protein interaction file."
-

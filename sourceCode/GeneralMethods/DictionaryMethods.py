@@ -35,17 +35,20 @@ def createDicOne(file1,key,val,header):
     return dic
 
 
-def createList(file1,index,header):
+def createList(file1,index,header,lineList=False):
     list=[]
     with open(file1) as filename:
         if header:
             next(filename)
         for line in filename:
             if line!="\n":
-                splits=line.split("\t")
-                value=splits[index].strip()
-                if value!="":
-                    list.append(value)
+                if lineList:
+                    list.append(line.strip())
+                else:
+                    splits=line.split("\t")
+                    value=splits[index].strip()
+                    if value!="":
+                        list.append(value)
     return list
 
 
@@ -79,7 +82,7 @@ def CreateDicWithAllColAsVal(file1,key,header,sep="\t",checkCol=False,CheckcolNu
                     dublicate+=1
             else:
                 notfoundColumn+=1
-    print "total dublicate keys found are ",dublicate
+    # print "total dublicate keys found are ",dublicate
     if checkCol:
         print "total lines where ",CheckcolNumValue[1], " was not found are ", notfoundColumn
     print

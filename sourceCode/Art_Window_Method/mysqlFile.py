@@ -1,7 +1,6 @@
 __author__ = 'surya'
 
 from Tkinter import *
-import mysql.connector
 from tkMessageBox import *
 from Mysql_queries import MySqlConnection
 import ttk

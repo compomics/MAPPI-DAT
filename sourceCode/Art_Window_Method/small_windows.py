@@ -100,7 +100,7 @@ def artAliqotWindow():
 ######################################################################################################################
 ####################### mixtures ###############################################################
 date2Aliqot={}
-global date2Aliqot
+# global date2Aliqot
 
 def AddSelectedaliqotes(dates,date2aliqot,curserSelection,aliqotList,finalBox,frame1):
     date2aliqot[finalBox.size()]=[aliqotList[curserSelection],dates]

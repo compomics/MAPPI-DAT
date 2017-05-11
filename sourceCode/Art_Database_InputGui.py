@@ -54,5 +54,5 @@ if cnx!="":
     ttk.Button(mainframe, text="Add Printing Info", command=small_windows.ScreeningWindow).grid(column=4, row=2, sticky=W)
 
 
-
+cnx.close()
 root.mainloop()

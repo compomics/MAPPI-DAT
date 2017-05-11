@@ -2,7 +2,7 @@ __author__ = 'surya'
 #from Error_handle import ErrorHandling
 import os
 from tkMessageBox import *
-from Mysql_queries import MySqlConnection,GetExistingDataFromDatabase, mysql_smallMethods
+from Mysql_queries import GetExistingDataFromDatabase, mysql_smallMethods,MySqlConnection
 
 
 
@@ -15,8 +15,6 @@ def input_mysql(Tplate2Path,plate2subfolder,ns, s,p_name, preason, eg_name, bait
                 BaitvectorType,stimuluType, stimulusconc, protocolType,treatmentType,TreatmentConc,Treatementdate,treatment_starttime,
                 treatment_endtime,aspeficDic,cnx,mappit,maspit,kiss,treatment,fusion_cpd,fusion_cps_conc,
                 moleculeExtraInfo,linkageDic,plate_tfileDic,BaitTransfectDate,path):
-    if not cnx.is_connected():
-        cnx=MySqlConnection.connectSql()
 
 
     print("starting database.......... ")
@@ -48,15 +46,8 @@ def input_mysql(Tplate2Path,plate2subfolder,ns, s,p_name, preason, eg_name, bait
 
     """
 
-    ## loggin in into the mymysql sever
-    cursor1 = cnx.cursor()
-    cursor2 = cnx.cursor()
-    cursor3 = cnx.cursor()
-    cursor4 = cnx.cursor()
-    cursor5 = cnx.cursor()
-    cursor6 = cnx.cursor()
-    cursor7 = cnx.cursor()
-    cursor8 = cnx.cursor()
+    if not cnx.is_connected():
+        cnx=MySqlConnection.connectSql()
     proj_present = False
     expgrp_present = False
 
@@ -83,7 +74,8 @@ def input_mysql(Tplate2Path,plate2subfolder,ns, s,p_name, preason, eg_name, bait
     experimentGrp_input = ("""insert into experiment_group (e_name,ref_projid) values (%s,%s)""")
 
     #        prey_input= ("""insert into prey (sequence,homology,weight,p_name,ref_panid,entrenz_name) values (%s,%s,%s,%s,%s,%s)""")
-    prey_input = ("""insert into prey (p_name,ref_panid,entrenz_name,plate_nr,ref_artid,ref_mixtureid,ref_artwellid) values (%s,%s,%s,%s,%s,%s,%s)""")
+    prey_input = ("""insert into prey (p_name,ref_panid,entrenz_name,plate_nr,ref_artid,ref_mixtureid,ref_artwellid)
+                    values (%s,%s,%s,%s,%s,%s,%s)""")
 
     bait_input = ("""insert into bait (b_name) values (%s)""")
 
@@ -93,7 +85,8 @@ def input_mysql(Tplate2Path,plate2subfolder,ns, s,p_name, preason, eg_name, bait
 
     expcondition = (
         """insert into exp_condition (stimulus_type,stimulus_conc,Scanning_date,mbu_bait_code,NSreplicate,Sreplicate,
-            bait_vector_type,protocol_version,treatment_type,treatment_con,treatment_date,start_treatment,end_treatment,input_date,BaitTransfectDate) values (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)""")
+            bait_vector_type,protocol_version,treatment_type,treatment_con,treatment_date,start_treatment,end_treatment,
+            input_date,BaitTransfectDate) values (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)""")
     expcondition_wottreatment = (
         """insert into exp_condition (stimulus_type,stimulus_conc,Scanning_date,mbu_bait_code,NSreplicate,Sreplicate,
             bait_vector_type,protocol_version,input_date,BaitTransfectDate) values (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)""")
@@ -107,7 +100,8 @@ def input_mysql(Tplate2Path,plate2subfolder,ns, s,p_name, preason, eg_name, bait
     spots_input = ("""insert into spots (row,col,block,ref_wellid,ref_interactorid) values (%s,%s,%s,%s,%s)""")
 
     quantificationVal_input = (
-        """insert into quantificationval (pc,meanarea,grayvalmean,meangrayvalmean,meanintint,area_fraction,intint,ref_spotid) values (%s,%s,%s,%s,%s,%s,%s,%s)""")
+        """insert into quantificationval (pc,meanarea,grayvalmean,meangrayvalmean,meanintint,area_fraction,intint,ref_spotid)
+        values (%s,%s,%s,%s,%s,%s,%s,%s)""")
 
     Aspecific_input=("""insert into aspecifics (ref_preyid,ref_experimentid) values (%s,%s)""")
 
@@ -160,44 +154,40 @@ def input_mysql(Tplate2Path,plate2subfolder,ns, s,p_name, preason, eg_name, bait
     expgrp_present,expgrp,expgrpDic= mysql_smallMethods.CheckPresenese_Insert(experimentGrp_input,(eg_name, project),eg_name,expgrpDic,cnx,insertValOnly)
 
 
-
  ## insert the entries for the experiment condition
     ## check if the treatment is asked
 
     if treatment:
-        cursor7.execute(expcondition, (stimuluType,stimulusconc,Scanningdate,mbubait_code, nsreplicate,sreplicate,BaitvectorType,protocolType,treatmentType,TreatmentConc,
-                                       Treatementdate,treatment_starttime,treatment_endtime,e_date,BaitTransfectDate))
-        econ = cursor7.lastrowid
+        econ =mysql_smallMethods.OnlyInsert(expcondition, (stimuluType,stimulusconc,Scanningdate,mbubait_code, nsreplicate,sreplicate,BaitvectorType,protocolType,treatmentType,TreatmentConc,
+                                       Treatementdate,treatment_starttime,treatment_endtime,e_date,BaitTransfectDate),cnx)
     else:
-        cursor7.execute(expcondition_wottreatment, (stimuluType,stimulusconc,Scanningdate,mbubait_code, nsreplicate,sreplicate,BaitvectorType,protocolType,e_date,BaitTransfectDate))
-        econ = cursor7.lastrowid
+        econ = mysql_smallMethods.OnlyInsert(expcondition_wottreatment,
+            (stimuluType,stimulusconc,Scanningdate,mbubait_code, nsreplicate,sreplicate,
+             BaitvectorType,protocolType,e_date,BaitTransfectDate),cnx)
 
 
     ## insert the new experiment taking the foreign key value from group and condition
-    cursor8.execute(experiments_input, (e_name, expReason, 0, expgrp, econ, exp_type))
-    ref_expid = cursor8.lastrowid
+    ref_expid  = mysql_smallMethods.OnlyInsert(experiments_input, (e_name, expReason, 0, expgrp, econ, exp_type),cnx)
     cnx.commit()
-
     ## Now check if the project and experiment group already exist than do not insert the prey again....
     if not (proj_present and expgrp_present):
         ## also insert the new bait entry for the project
         ## open file for bait
-        cursor2.execute(bait_input,(bait_name,))
-        baitid = cursor2.lastrowid
+        baitid=mysql_smallMethods.OnlyInsert(bait_input,(bait_name,),cnx)
                 ## open file for the molecule
         if maspit:
-            cursor3.execute(molecule_input, (fusion_cpd,fusion_cps_conc,moleculeExtraInfo))
-            molid = cursor3.lastrowid
+            molid=mysql_smallMethods.OnlyInsert(molecule_input, (fusion_cpd,fusion_cps_conc,moleculeExtraInfo))
             ## update the foreign key linking to bait and molecule
-            cursor3.execute(""" UPDATE experiment_group set ref_baitid= %s , ref_molid=%s where expgrp_id=%s""",
-                            (baitid, molid, expgrp))
+            mysql_smallMethods.UpdateTable(""" UPDATE experiment_group set ref_baitid= %s , ref_molid=%s where expgrp_id=%s""",
+                            (baitid, molid, expgrp),cnx)
         else:
-            cursor3.execute(""" UPDATE experiment_group set ref_baitid= %s where expgrp_id=%s""", (baitid, expgrp))
-        cnx.commit()
+            mysql_smallMethods.UpdateTable(""" UPDATE experiment_group set ref_baitid= %s where expgrp_id=%s""",
+                                           (baitid, expgrp),cnx)
         ### adding the prey entry
         print "started with adding protein information...."
 #        mixture_dic={}
         print "total proteins Aspecific found are ",len(aspeficDic)
+        cnx.commit()
         for entry in Tplate2Path: ## this is the dic {Tfilename=path of t file}
             TPsplit = entry.split(".")
 ## start adding the t-files only if it is not already present in the database
@@ -210,6 +200,7 @@ def input_mysql(Tplate2Path,plate2subfolder,ns, s,p_name, preason, eg_name, bait
             preAnnotationDic[TPsplit[0].strip()]=ref_tplateid
             print "doing file: ", entry
             # go through each line and add unique name in prey
+
             with open(Tplate2Path[entry]) as pfile:
                 next(pfile)
                 for line in pfile:
@@ -219,59 +210,56 @@ def input_mysql(Tplate2Path,plate2subfolder,ns, s,p_name, preason, eg_name, bait
                     ## add art names if does not exist
                     artName="ART" + psplits[0].strip()
                     artpresent,ref_artid,artDic= mysql_smallMethods.CheckPresenese_Insert(art_input, (artName,),artName,artDic,cnx)
-
                     ## add the art well names
                     artwellName=psplits[1].strip()
                     if artwellName+"_"+artName not in artWellDic:
-                        cursor5.execute(artwell_withName_input, (artwellName,psplits[2].strip(),psplits[3].strip(),psplits[4].strip(),psplits[5].strip()))
-                        ref_artwellid=cursor5.lastrowid
-                        cursor5.execute(art2well_input,(ref_artwellid,ref_artid))
+                        ref_artwellid =mysql_smallMethods.OnlyInsert(artwell_withName_input,
+                        (artwellName,psplits[2].strip(),psplits[3].strip(),psplits[4].strip(),psplits[5].strip()),cnx)
+                        art2wellId=mysql_smallMethods.OnlyInsert(art2well_input,(ref_artwellid,ref_artid),cnx)
                         artWellDic[artwellName + "_" + artName]=ref_artwellid
                     else:
                         ref_artwellid=artWellDic[artwellName+"_"+artName]
-                        cursor5.execute(artwell_wOTName_input,(psplits[2].strip(),psplits[3].strip(),psplits[4].strip(),psplits[5].strip(),ref_artwellid))
-
+                        art2wellWOTid=mysql_smallMethods.OnlyInsert(artwell_wOTName_input,
+                            (psplits[2].strip(),psplits[3].strip(),psplits[4].strip(),psplits[5].strip(),ref_artwellid),cnx)
                     ## add the prey name
-                    prpresent,protein,preyDic= mysql_smallMethods.CheckPresenese_Insert(prey_input, (psplits[10].strip(), ref_tplateid, psplits[12].strip(),psplits[8].strip(),ref_artid,ref_mixtureid,ref_artwellid),psplits[10].strip(),preyDic,cnx)
+                    prpresent,protein,preyDic= mysql_smallMethods.CheckPresenese_Insert(prey_input,
+                        (psplits[10].strip(), ref_tplateid, psplits[12].strip(),psplits[8].strip(),ref_artid,ref_mixtureid,ref_artwellid),
+                                                        psplits[10].strip(),preyDic,cnx)
 
                     ## add interactors entry
                     if psplits[10].strip() in aspeficDic:
                         type="A-specific"
                     else:
                         type=psplits[15].strip()
-                    cursor5.execute(interactors_inp, (expgrp, protein,type))
-            # else:
-            #     tplate=preAnnotationDic[TPsplit[0].strip()] # this will the reference id of the tplate
+                    interactorId=mysql_smallMethods.OnlyInsert(interactors_inp, (expgrp, protein,type),cnx)
 
             ## add the realtion between the tplate and exp only if it does not exist
             if ref_tplateid not in tplat_expDic:
-                cursor5.execute(tplaterelation_input, (ref_tplateid, ref_expid))
+                tplatId=mysql_smallMethods.OnlyInsert(tplaterelation_input, (ref_tplateid, ref_expid),cnx)
                 tplat_expDic[ref_tplateid] = ref_expid
-
-        cnx.commit()
+            cnx.commit()
 
     print "started adding A-specifics"
 
     # aspecDic={}
     for apec in aspeficDic:
         if apec in preyDic:
-            cursor4.execute(Aspecific_input,(preyDic[apec],ref_expid))
+            apecId=mysql_smallMethods.OnlyInsert(Aspecific_input,(preyDic[apec],ref_expid),cnx)
 
     welldic = {'W1': 1, 'W2': 2, 'W3': 3, 'W4': 4}
     print "started processing each plate..", len(plate2subfolder)
 
     ### get all the interactor id for all the prey for this exp,egroup, project
-    cursor3.execute("""select i.idinteractors,p.p_name from interactors i
+    getAllPrey2InteractorId="""select i.idinteractors,p.p_name from interactors i
         inner join prey p on p.prey_id=i.ref_preyid
         inner join experiment_group g on g.expgrp_id=i.ref_expgrpid
         inner join project j on j.project_id=g.ref_projid
         inner join experiments e on g.expgrp_id=e.ref_expgrpid
-        where g.expgrp_id=%s and e.experiment_id=%s and j.project_id=%s""",  (expgrp, ref_expid, project))
-    prey_interactorDic={}
-    for (interactorid,preyname) in cursor3:
-        prey_interactorDic[preyname]=interactorid
+        where g.expgrp_id=%s and e.experiment_id=%s and j.project_id=%s"""
+
+    prey_interactorDic=GetExistingDataFromDatabase.getAlldata_fromDatabase(getAllPrey2InteractorId,cnx,query_val=(expgrp, ref_expid, project))
+
     print len(prey_interactorDic)
-    cnx.commit()
     #############################################################################################
 
 
@@ -288,17 +276,15 @@ def input_mysql(Tplate2Path,plate2subfolder,ns, s,p_name, preason, eg_name, bait
         if pl not in platDic:
             print "plate is not present in the database..."
         else:
-            cursor2.execute(""" UPDATE plates set ref_panid= %s where p_name=%s""", (tplatNameid,pl))
+            mysql_smallMethods.UpdateTable(""" UPDATE plates set ref_panid= %s where p_name=%s""", (tplatNameid,pl),cnx)
             ref_plateid=platDic[pl]
-            cursor2.execute(exp2plate,(ref_expid,ref_plateid))
+            exp2plateId=mysql_smallMethods.OnlyInsert(exp2plate,(ref_expid,ref_plateid),cnx)
         print pl, " updated in the database...."
         plat_wellDic[pl]={}
         for ns_w in nslist: ## add the well for on stimulated
-            cursor1.execute(wells_input, (ns_w, "Non-Stimulating",platDic[pl]))
-            plat_wellDic[pl][ns_w]=cursor1.lastrowid
+            plat_wellDic[pl][ns_w]=mysql_smallMethods.OnlyInsert(wells_input, (ns_w, "Non-Stimulating",platDic[pl]),cnx)
         for s_w in slist: ## add the well for stimulated
-            cursor1.execute(wells_input, (s_w, "Stimulating",platDic[pl]))
-            plat_wellDic[pl][s_w]=cursor1.lastrowid
+            plat_wellDic[pl][s_w] =mysql_smallMethods.OnlyInsert(wells_input, (s_w, "Stimulating",platDic[pl]),cnx)
 
        ## now start adding the spots, quantification val
         for w in plate2well2lineDic[pl]:
@@ -310,25 +296,18 @@ def input_mysql(Tplate2Path,plate2subfolder,ns, s,p_name, preason, eg_name, bait
 
                 if uniquename in prey_interactorDic:
                     interid=prey_interactorDic[splits[2].strip()]
-                    cursor2.execute(spots_input, (spl[5].strip(), spl[6].strip(), spl[welldic[w]].strip(), plat_wellDic[platename][w], interid))
-                    spots = cursor2.lastrowid
-                    cursor4.execute(quantificationVal_input,
+                    spots =mysql_smallMethods.OnlyInsert(spots_input,
+                        (spl[5].strip(), spl[6].strip(), spl[welldic[w]].strip(), plat_wellDic[platename][w], interid),cnx)
+                    quatId=mysql_smallMethods.OnlyInsert(quantificationVal_input,
                                     (float(splits[11].strip()), float(splits[12].strip()), float(splits[13].strip()),
                                      float(splits[14].strip()), float(splits[15].strip()), float(splits[16].strip()),
-                                     float(splits[17].strip()), spots))
-
+                                     float(splits[17].strip()), spots),cnx)
+        cnx.commit()
     """" add new tables in the database: well,quartile threshold, analysis paramater"""
                 ## insert the plates corresponding for each of the subfolder
 
-    cursor1.close()
-    cursor2.close()
-    cursor3.close()
-    cursor4.close()
-    cursor5.close()
-    cursor6.close()
-    cursor7.close()
-    cursor8.close()
-    cnx.commit()
+    if cnx.is_connected():
+        cnx.close()
     return ref_expid, expgrp, project,platDic
 
 ############################################################################################################
@@ -386,11 +365,6 @@ def parseAnalysisFile(file1):
 #######################################################################################################################
 
 def analysis_mysql(exp, expgrp,project, merged_file,cnx,pfp,pcfil,quartfil,platDic,prey_interactors,analysisid):
-    if not cnx.is_connected():
-        cnx=MySqlConnection.connectSql()
-
-    cursor1 = cnx.cursor()
-    cursor2 = cnx.cursor()
 
 ## queries ############################################
     plate_possiblehit_input=(""" insert into plates_has_possiblehit (ref_plateid,ref_possiblehitid) values (%s,%s)""")
@@ -410,18 +384,18 @@ def analysis_mysql(exp, expgrp,project, merged_file,cnx,pfp,pcfil,quartfil,platD
             plates=splits[0].strip()
 
 ## the entries in teh possible hits
-            cursor2.execute(possiblehitinput, (prey_interactors[uniqueName], float(splits[15].strip()), float(splits[13].strip()), float(splits[14].strip()),analysisid,filtrationType))
-            posshitid=cursor2.lastrowid
+            posshitid=mysql_smallMethods.OnlyInsert(possiblehitinput,
+                        (prey_interactors[uniqueName], float(splits[15].strip()), float(splits[13].strip()),
+                         float(splits[14].strip()),analysisid,filtrationType),cnx)
             for eachplate in plates.split(";"):
                 if eachplate in platDic:
-                    cursor2.execute(plate_possiblehit_input,(platDic[eachplate],posshitid)) ## add the relation between the plate and the possible hits
+                    platId=mysql_smallMethods.OnlyInsert(plate_possiblehit_input,(platDic[eachplate],posshitid),cnx) ## add the relation between the plate and the possible hits
                 else:
                     print("plate is not found",eachplate)
-#    print "analysis done for ",plates
     cnx.commit()
-    cursor1.close()
-    cursor2.close()
-#    cnx.close()
+    if cnx.is_connected():
+        cnx.close()
+#    print "analysis done for ",plates
 
 
 ########################################################################################################################################

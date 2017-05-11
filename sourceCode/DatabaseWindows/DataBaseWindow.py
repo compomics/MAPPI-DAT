@@ -6,6 +6,7 @@ from Tkinter import *
 from tkFileDialog import askopenfilename
 from Gui_support import Gui_looks
 from Database_input import mysql_mappit
+from Mysql_queries import MySqlConnection
 from datetime import datetime
 background = "grey95"
 
@@ -135,6 +136,9 @@ def DatabaseEntry(Tplate2Path,bait2plate,plate2subfolder,nslist,slist,projname,p
                                            linkageDic,plate_tfileDic,BaitTransfectDate.get(),path)
 
     ########### first get all the interactors and add analysis parameters
+    if not cnx.is_connected():
+        cnx=MySqlConnection.connectSql()
+
     prey_interactors={}
     cursor1 = cnx.cursor()
     ## get all the interactor ids for the exp group and exp and project
@@ -148,7 +152,8 @@ def DatabaseEntry(Tplate2Path,bait2plate,plate2subfolder,nslist,slist,projname,p
     for (inte,preyname) in cursor1:
         prey_interactors[preyname]=inte
 
-    analysis_parameter_input=(""" insert into analysis_parameters (q_val_threshold,particle_count_filtration,quartile_filtration,ref_expid) values (%s,%s,%s,%s) """)
+    analysis_parameter_input=(""" insert into analysis_parameters (q_val_threshold,particle_count_filtration,quartile_filtration,ref_expid)
+                            values (%s,%s,%s,%s) """)
 
     if PCpresent.get():
         pcfiltration=pcfil.get()
@@ -157,13 +162,16 @@ def DatabaseEntry(Tplate2Path,bait2plate,plate2subfolder,nslist,slist,projname,p
     ## first add the parameters in the table analysis_paramater
     cursor1.execute(analysis_parameter_input,(pfp.get(),pcfiltration,quartfil.get(),exp))
     analysisid=cursor1.lastrowid
-
+    cnx.commit()
+    cursor1.close()
 
 ########################### add the data in the database
     print "stated with adding analysis results...."
     for bait in bait2plate:
-        mysql_mappit.analysis_mysql(exp, expgrp,project, path+"/"+bait + "/Analysis/AllPlatesWithoutControlNormalized_SelectedAnalyzed.txt",cnx,pfp.get(),pcfiltration,quartfil.get(),platDic,prey_interactors,analysisid)
+        mysql_mappit.analysis_mysql(exp, expgrp,project, path+"/"+bait + "/Analysis/AllPlatesWithoutControlNormalized_SelectedAnalyzed.txt",
+                                    cnx,pfp.get(),pcfiltration,quartfil.get(),platDic,prey_interactors,analysisid)
 
     print "closing now...."
     print(datetime.now())
-
+    if cnx.is_connected:
+        cnx.close()
